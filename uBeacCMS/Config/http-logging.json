@@ -1,0 +1,8 @@
+{
+  "HttpLogging": {
+    "Status200CollectionName": "Status200",
+    "Status400CollectionName": "Status400",
+    "Status500CollectionName": "Status500",
+    "BypassLogTimeOut": 300
+  }
+}
