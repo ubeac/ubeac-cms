@@ -30,15 +30,10 @@ public class SiteService : EntityService<Site>, ISiteService
     }
 
     private void PrepareSite(Site entity)
-    {
-        for (int i = 0; i < entity.Domains.Count; i++)
-        {
-            entity.Domains[i] = entity.Domains[i].ToLower();
-        }
-    }
+        => entity.Domains = entity.Domains.Select(x => x.ToLower()).ToList();
+
 
     public Task<Site> GetByDomain(string domain, CancellationToken cancellationToken = default)
-    {
-        return _repository.GetByDomain(domain, cancellationToken);
-    }
+        => _repository.GetByDomain(domain, cancellationToken);
+
 }

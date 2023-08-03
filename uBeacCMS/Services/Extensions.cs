@@ -10,6 +10,7 @@ public static class ServiceExtensions
         services.AddScoped<IPageService, PageService>();
         services.AddScoped<IModuleDefinitionService, ModuleDefinitionService>();
         services.AddScoped<IModuleService, ModuleService>();
+        services.AddScoped<ITextHtmlService, TextHtmlService>();
         return services;
     }
 }
