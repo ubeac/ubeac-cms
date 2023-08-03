@@ -13,5 +13,6 @@ public class CatchallModel : PageModel
     }
     public void OnGet()
     {
+        ViewData["Title"] = Cms.Page.Title;
     }
 }

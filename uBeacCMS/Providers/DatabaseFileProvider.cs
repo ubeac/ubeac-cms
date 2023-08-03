@@ -9,10 +9,12 @@ namespace uBeacCMS.Providers;
 public class DatabaseFileProvider : IFileProvider
 {
     private readonly IPageService _pageService;
+    private readonly ISiteService _siteService;
 
-    public DatabaseFileProvider(IPageService pageService)
+    public DatabaseFileProvider(ISiteService siteService, IPageService pageService)
     {
         _pageService = pageService;
+        _siteService = siteService;
     }
 
     public IDirectoryContents GetDirectoryContents(string subpath)
@@ -23,10 +25,20 @@ public class DatabaseFileProvider : IFileProvider
 
     public IFileInfo GetFileInfo(string subpath)
     {
-        var page = _pageService.GetByUrl(subpath).Result;
+        subpath = subpath.Replace("/Pages/", string.Empty);
+        subpath = subpath.Replace("/", string.Empty);
+        subpath = subpath.Replace(".cshtml", string.Empty);
+
+        if (!Guid.TryParse(subpath, out var pageId))
+            return new NotFoundFileInfo(subpath);
+
+        var page = _pageService.GetById(pageId).Result;
 
         if (page == null)
             return new NotFoundFileInfo(subpath);
+
+        if (string.IsNullOrEmpty(page.Template))
+            page.Template = _siteService.GetById(page.SiteId).Result?.Template;        
 
         return new DatabaseFileInfo(page);
     }
@@ -90,7 +102,7 @@ public class DatabaseChangeToken : IChangeToken
     {
         get
         {
-            return true;
+            return false;
             //var page = dbContext.Pages.Where(x => x.Url.ToLower() == subpath.ToLower()).FirstOrDefault();
             //if (page is not null && page.LastRequested.HasValue && page.LastRequested < page.LastModified)
             //    return true;

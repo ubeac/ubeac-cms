@@ -1,6 +1,5 @@
 ﻿@page "/{name?}"
 @model CatchallModel
 @{
-    Layout = "_SingleViewLayout";
+    Layout = @Model.Cms.Page?.Id.ToString();
 }
-@Model.Cms.Site.Name

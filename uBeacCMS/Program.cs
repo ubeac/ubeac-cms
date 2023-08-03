@@ -61,8 +61,8 @@ builder.Services.AddOptions<MvcRazorRuntimeCompilationOptions>().Configure<IServ
     using (var scope = serviceProvider.CreateScope())
     {
         var pageService = scope.ServiceProvider.GetRequiredService<IPageService>();
-        //options.FileProviders.Clear();
-        options.FileProviders.Add(new DatabaseFileProvider(pageService));
+        var siteService = scope.ServiceProvider.GetRequiredService<ISiteService>();
+        options.FileProviders.Add(new DatabaseFileProvider(siteService, pageService));
     }
 });
 
@@ -74,17 +74,11 @@ app.UseHttpsRedirection();
 app.UseHstsOnProduction(builder.Environment);
 app.UseCorsPolicy(corsPolicyOptions);
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Error");
-}
-
 app.UseStaticFiles();
 
-app.UseCmsRouting();
-
 app.UseRouting();
+
+app.UseCmsRouting();
 
 app.UseHttpLoggingMiddleware();
 
