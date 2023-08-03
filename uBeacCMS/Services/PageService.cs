@@ -33,6 +33,12 @@ public class PageService : EntityService<Page>, IPageService
 
     public Task<Page> GetByUrl(string url, CancellationToken cancellationToken = default)
     {
+        if (url.StartsWith("/"))
+            url = url.Substring(1);
+
+        if (url.EndsWith("/"))
+            url = url.Remove(url.Length - 1);
+
         return _repository.GetByUrl(url, cancellationToken);
     }
 

@@ -1,4 +1,5 @@
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation;
 using System.Reflection;
 using uBeac.Repositories.History.MongoDB;
 using uBeac.Web.Logging;
@@ -6,6 +7,8 @@ using uBeac.Web.Logging.MongoDB;
 using uBeacCMS;
 using uBeacCMS.Middlewares;
 using uBeacCMS.Models;
+using uBeacCMS.Providers;
+using uBeacCMS.Services;
 using Module = uBeacCMS.Models.Module;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -50,10 +53,18 @@ builder.Services.AddHistory<MongoDBHistoryRepository>().For<Site>().For<Page>().
 builder.Services.AddCms();
 
 // Add services to the container.
-builder.Services.AddRazorPages().AddRazorPagesOptions(options =>
+builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
+
+
+builder.Services.AddOptions<MvcRazorRuntimeCompilationOptions>().Configure<IServiceProvider>((options, serviceProvider) =>
 {
-    //options.Conventions.AddPageRoute("/Catchall", "{*url}");
-}).AddRazorRuntimeCompilation();
+    using (var scope = serviceProvider.CreateScope())
+    {
+        var pageService = scope.ServiceProvider.GetRequiredService<IPageService>();
+        //options.FileProviders.Clear();
+        options.FileProviders.Add(new DatabaseFileProvider(pageService));
+    }
+});
 
 var app = builder.Build();
 
@@ -71,14 +82,13 @@ if (!app.Environment.IsDevelopment())
 
 app.UseStaticFiles();
 
-app.UseRouting();
-
 app.UseCmsRouting();
+
+app.UseRouting();
 
 app.UseHttpLoggingMiddleware();
 
 app.UseAuthorization();
 
 app.MapRazorPages();
-
 app.Run();
