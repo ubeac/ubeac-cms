@@ -6,6 +6,7 @@ namespace uBeacCMS.Services;
 
 public interface IModuleService : IEntityService<Module>
 {
+    Task<IEnumerable<Module>> GetByPageId(Guid pageId, CancellationToken cancellationToken = default);
 }
 
 public class ModuleService : EntityService<Module>, IModuleService
@@ -14,5 +15,10 @@ public class ModuleService : EntityService<Module>, IModuleService
     public ModuleService(IModuleRepository repository) : base(repository)
     {
         _repository = repository;
+    }
+
+    public Task<IEnumerable<Module>> GetByPageId(Guid pageId, CancellationToken cancellationToken = default)
+    {
+        return _repository.GetByPageId(pageId, cancellationToken);
     }
 }

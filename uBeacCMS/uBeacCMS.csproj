@@ -9,6 +9,7 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="7.0.9" />
     <PackageReference Include="uBeac.Common" Version="0.43.14" />
     <PackageReference Include="uBeac.Configuration" Version="0.43.14" />
     <PackageReference Include="uBeac.Repositories.MongoDB" Version="0.43.14" />

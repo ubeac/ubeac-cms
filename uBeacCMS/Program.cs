@@ -4,6 +4,7 @@ using uBeac.Repositories.History.MongoDB;
 using uBeac.Web.Logging;
 using uBeac.Web.Logging.MongoDB;
 using uBeacCMS;
+using uBeacCMS.Middlewares;
 using uBeacCMS.Models;
 using Module = uBeacCMS.Models.Module;
 
@@ -46,8 +47,13 @@ builder.Services.AddApplicationContext();
 builder.Services.AddMongo<HistoryMongoDBContext>("HistoryConnection");
 builder.Services.AddHistory<MongoDBHistoryRepository>().For<Site>().For<Page>().For<ModuleDefinition>().For<Module>();
 
+builder.Services.AddCms();
+
 // Add services to the container.
-builder.Services.AddRazorPages();
+builder.Services.AddRazorPages().AddRazorPagesOptions(options =>
+{
+    //options.Conventions.AddPageRoute("/Catchall", "{*url}");
+}).AddRazorRuntimeCompilation();
 
 var app = builder.Build();
 
@@ -66,6 +72,8 @@ if (!app.Environment.IsDevelopment())
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseCmsRouting();
 
 app.UseHttpLoggingMiddleware();
 

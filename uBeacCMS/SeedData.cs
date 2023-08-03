@@ -17,7 +17,7 @@ public static class SeedData
                 Id = Guid.NewGuid(),
                 Name = "Sample Website",
                 Administrators = new(),
-                Domains = new List<string> { "samplewebsite.com" },
+                Domains = new List<string> { "localhost:5205" },
                 Template = ""
             };
             siteService.Create(site).GetAwaiter().GetResult();
