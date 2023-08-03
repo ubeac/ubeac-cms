@@ -10,6 +10,7 @@ public static class RepositoryExtensions
         services.AddScoped<IPageRepository, PageRepository>();
         services.AddScoped<IModuleDefinitionRepository, ModuleDefinitionRepository>();
         services.AddScoped<IModuleRepository, ModuleRepository>();
+        services.AddScoped<ITextHtmlRepository, TextHtmlRepository>();
         return services;
     }
 }

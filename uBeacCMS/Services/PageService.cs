@@ -32,8 +32,7 @@ public class PageService : EntityService<Page>, IPageService
     }
 
     public Task<Page> GetByUrl(string url, CancellationToken cancellationToken = default)
-    {
-        return _repository.GetByUrl(url, cancellationToken);
-    }
+        => _repository.GetByUrl(url, cancellationToken);
+
 
 }
