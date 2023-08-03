@@ -18,12 +18,15 @@ public partial class Pane : ComponentBase
             int i = 0;
             foreach (var module in Core.Modules.Where(x => x.Pane.ToLower() == Name.ToLower()))
             {
-                // todo: "HelloWorld" => ModuleDefinition.Type
-                var type = Type.GetType("uBeacCMS.Modules.HelloWorld");
+                var typeName = Core.ModuleDefinitions.SingleOrDefault(x => x.Id == module.ModuleDefinitionId)?.Name;
+                var type = Type.GetType($"uBeacCMS.Modules.{typeName}");
+
                 if (type is null)
                     throw new Exception("Module not found!");
+                
                 builder.OpenComponent(++i, type);
                 builder.AddAttribute(++i, "core", Core);
+                builder.AddAttribute(++i, "module", module);
                 builder.CloseComponent();
             }
         }

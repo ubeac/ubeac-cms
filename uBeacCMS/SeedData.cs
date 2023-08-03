@@ -102,7 +102,7 @@ public static class SeedData
             {
                 Id = Guid.NewGuid(),
                 Description = "Simple TextHTML",
-                Name = "TextHTML",
+                Name = "TextHtml",
                 Template = ""
             };
             moduleDefinitionService.Create(moduleDefinition).GetAwaiter().GetResult();
@@ -116,7 +116,7 @@ public static class SeedData
                 PageId= page.Id,
                 Title = "About us",
                 Template = "",
-                Pane = ""
+                Pane = "Content"
             };
             moduleService.Create(module).GetAwaiter().GetResult();
 

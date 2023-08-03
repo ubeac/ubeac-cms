@@ -1,0 +1,18 @@
+﻿@using Microsoft.AspNetCore.Html;
+@using uBeacCMS.Models;
+@using uBeacCMS.Services;
+@inject ITextHtmlService service;
+@inherits BaseModule;
+
+@code {
+    
+    private Models.Modules.TextHtml Content;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Content = await service.GetByModuleId(Module.Id);        
+    }
+}
+
+@((MarkupString)Content?.Content )
+

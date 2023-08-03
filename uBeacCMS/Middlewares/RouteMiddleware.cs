@@ -12,7 +12,7 @@ public class RouteMiddleware
         _next = next;
     }
 
-    public async Task InvokeAsync(HttpContext context, ISiteService siteService, IPageService pageService, CmsContext cmsContext, IModuleService moduleService)
+    public async Task InvokeAsync(HttpContext context, ISiteService siteService, IPageService pageService, CmsContext cmsContext, IModuleService moduleService, IModuleDefinitionService moduleDefinitionService)
     {
         var site = await siteService.GetByDomain(context.Request.Host.Value);
 
@@ -28,6 +28,12 @@ public class RouteMiddleware
 
                 cmsContext.Page = page;
                 cmsContext.Modules = modules.ToList();
+
+                if(cmsContext.Modules is not null && cmsContext.Modules.Count > 0)
+                {
+                    var moduleDefinitionIds = cmsContext.Modules.Select(x => x.ModuleDefinitionId).Distinct();
+                    cmsContext.ModuleDefinitions = (await moduleDefinitionService.GetByIds(moduleDefinitionIds)).ToList();
+                }
             }
         }
 
