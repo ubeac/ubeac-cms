@@ -9,9 +9,9 @@ public interface ISiteRepository : IEntityRepository<Site>
 {
     Task<Site> GetByDomain(string domain, CancellationToken cancellationToken = default);
 }
-public class SiteRepository : MongoEntityRepository<Site, MainDBContext>, ISiteRepository
+public class SiteRepository : MongoEntityRepository<Site, MongoDBContext>, ISiteRepository
 {
-    public SiteRepository(MainDBContext mongoDbContext, IApplicationContext applicationContext, IHistoryManager history) : base(mongoDbContext, applicationContext, history)
+    public SiteRepository(MongoDBContext mongoDbContext, IApplicationContext applicationContext, IHistoryManager history) : base(mongoDbContext, applicationContext, history)
     {
     }
 

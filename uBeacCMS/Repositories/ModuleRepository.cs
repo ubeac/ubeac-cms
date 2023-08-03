@@ -8,9 +8,9 @@ public interface IModuleRepository : IEntityRepository<Module>
 {
 
 }
-public class ModuleRepository : MongoEntityRepository<Module, MainDBContext>, IModuleRepository
+public class ModuleRepository : MongoEntityRepository<Module, MongoDBContext>, IModuleRepository
 {
-    public ModuleRepository(MainDBContext mongoDbContext, IApplicationContext applicationContext, IHistoryManager history) : base(mongoDbContext, applicationContext, history)
+    public ModuleRepository(MongoDBContext mongoDbContext, IApplicationContext applicationContext, IHistoryManager history) : base(mongoDbContext, applicationContext, history)
     {
     }
 }

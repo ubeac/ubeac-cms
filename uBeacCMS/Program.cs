@@ -19,6 +19,9 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
 
+builder.Services.AddServices();
+builder.Services.AddRepositories();
+
 // Adding CORS policy
 var corsPolicyOptions = builder.Configuration.GetSection("CorsPolicy");
 builder.Services.AddCorsPolicy(corsPolicyOptions);
@@ -47,6 +50,8 @@ builder.Services.AddHistory<MongoDBHistoryRepository>().For<Site>().For<Page>().
 builder.Services.AddRazorPages();
 
 var app = builder.Build();
+
+app.Services.SeedDefaultData();
 
 app.UseHttpsRedirection();
 app.UseHstsOnProduction(builder.Environment);

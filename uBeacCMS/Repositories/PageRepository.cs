@@ -10,9 +10,9 @@ public interface IPageRepository : IEntityRepository<Page>
     Task<Page> GetByUrl(string url, CancellationToken cancellationToken = default);
     Task<IEnumerable<Page>> GetBySiteId(Guid siteId, CancellationToken cancellationToken = default);
 }
-public class PageRepository : MongoEntityRepository<Page, MainDBContext>, IPageRepository
+public class PageRepository : MongoEntityRepository<Page, MongoDBContext>, IPageRepository
 {
-    public PageRepository(MainDBContext mongoDbContext, IApplicationContext applicationContext, IHistoryManager history) : base(mongoDbContext, applicationContext, history)
+    public PageRepository(MongoDBContext mongoDbContext, IApplicationContext applicationContext, IHistoryManager history) : base(mongoDbContext, applicationContext, history)
     {
     }
 
