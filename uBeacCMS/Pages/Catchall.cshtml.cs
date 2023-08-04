@@ -13,6 +13,7 @@ public class CatchallModel : PageModel
     }
     public void OnGet()
     {
+        Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(Cms));
         ViewData["Title"] = Cms.Page.Title;
     }
 }

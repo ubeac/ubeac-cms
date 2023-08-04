@@ -11,6 +11,7 @@ public static class ServiceExtensions
         services.AddScoped<IModuleDefinitionService, ModuleDefinitionService>();
         services.AddScoped<IModuleService, ModuleService>();
         services.AddScoped<ITextHtmlService, TextHtmlService>();
+        services.AddScoped<IImageService, ImageService>();
         return services;
     }
 }

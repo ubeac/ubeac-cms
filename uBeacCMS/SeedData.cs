@@ -155,6 +155,15 @@ public static class SeedData
             };
             moduleDefinitionService.Create(moduleDefinition).GetAwaiter().GetResult();
 
+            var imageModule = new ModuleDefinition
+            {
+                Id = Guid.NewGuid(),
+                Description = "Simple Image with src and alt props",
+                Name = "Image",
+                Template = "<img src=\"src\" alt=\"alt\"/>"
+            };
+            moduleDefinitionService.Create(imageModule).GetAwaiter().GetResult();
+
             // Create Module
             var moduleService = scope.ServiceProvider.GetRequiredService<IModuleService>();
             var module = new Module
@@ -179,6 +188,26 @@ public static class SeedData
             };
             moduleService.Create(module).GetAwaiter().GetResult();
 
+            module = new Module
+            {
+                Id = Guid.NewGuid(),
+                ModuleDefinitionId = imageModule.Id,
+                PageId = page.Id,
+                Title = "Image Module Title",
+                Template = "",
+                Pane = "Content"
+            };
+            moduleService.Create(module).GetAwaiter().GetResult();
+
+
+// var textHtmlService = scope.ServiceProvider.GetRequiredService<ITextHtmlService>();
+//             var textHtml = new TextHtml
+//             {
+//                 Id = Guid.NewGuid(),
+//                 Content = "<h1>About us</h1> <p>This is about us.</p>",
+//                 ModuleId = module.Id
+//             };
+//             textHtmlService.Create(textHtml).GetAwaiter().GetResult();
             // Create TextHtml
             var textHtmlService = scope.ServiceProvider.GetRequiredService<ITextHtmlService>();
             var textHtml = new TextHtml

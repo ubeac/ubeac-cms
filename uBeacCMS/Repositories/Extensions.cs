@@ -11,6 +11,7 @@ public static class RepositoryExtensions
         services.AddScoped<IModuleDefinitionRepository, ModuleDefinitionRepository>();
         services.AddScoped<IModuleRepository, ModuleRepository>();
         services.AddScoped<ITextHtmlRepository, TextHtmlRepository>();
+        services.AddScoped<IImageRepository, ImageRepository>();
         return services;
     }
 }

@@ -14,7 +14,7 @@ using Module = uBeacCMS.Models.Module;
 var builder = WebApplication.CreateBuilder(args);
 
 // Adding json config files
-builder.Configuration.AddJsonConfig(builder.Environment);
+builder.Configuration.AddJsonConfig(builder.Environment, "/Config");
 
 // Adding http logging
 builder.Services.AddMongoDbHttpLogging<HttpLogMongoDBContext>("HttpLoggingConnection", builder.Configuration.GetInstance<MongoDbHttpLogOptions>("HttpLogging"));

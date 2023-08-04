@@ -1,0 +1,15 @@
+@using Microsoft.AspNetCore.Html;
+@using uBeacCMS.Models;
+@using uBeacCMS.Services;
+
+@inject IImageService service;
+@inherits BaseModule;
+
+@code {
+    private Models.Modules.Image image;
+    protected override async Task OnInitializedAsync() {
+        image = await service.GetByModuleId(Module.Id);
+    }
+}
+
+IMAGE: <img src="@image.Src" alt="@image.Alt"/>
