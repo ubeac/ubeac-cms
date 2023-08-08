@@ -20,5 +20,5 @@ public class ModuleService : EntityService<Module>, IModuleService
     public Task<IEnumerable<Module>> GetByPageId(Guid pageId, CancellationToken cancellationToken = default)
     {
         return _repository.GetByPageId(pageId, cancellationToken);
-    }
+    }        
 }

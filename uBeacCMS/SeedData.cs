@@ -151,7 +151,11 @@ public static class SeedData
                 Id = Guid.NewGuid(),
                 Description = "Simple TextHTML",
                 Name = "TextHtml",
-                Template = ""
+                ViewTypes = new Dictionary<string, string> { { "setting", "TextHtmlSetting" }, { "edit", "TextHtmlEdit" }, { "view", "TextHtmlView" } },
+                Setting = new Dictionary<string, string> 
+                {
+                    { "Direction", "LTR"}
+                }
             };
             moduleDefinitionService.Create(moduleDefinition).GetAwaiter().GetResult();
 
@@ -175,7 +179,8 @@ public static class SeedData
                 PageId = page.Id,
                 Title = "About us",
                 Template = "",
-                Pane = "Content"
+                Pane = "Content",
+                Setting= new Dictionary<string, string> { { "Direction", "LTR" } }
             };
             moduleService.Create(module).GetAwaiter().GetResult();
 
@@ -188,6 +193,33 @@ public static class SeedData
                 ModuleId = module.Id
             };
             textHtmlService.Create(textHtml).GetAwaiter().GetResult();
+
+            // TextHTML Component
+            // Create Page            
+            page = new Page
+            {
+                Id = Guid.NewGuid(),
+                Description = "TextHtmlModule",
+                Keywords = "settings",
+                SiteId = site.Id,
+                Template = "",
+                Title = "TextHtml Module Settings",
+                Url = "module/TextHtml"
+            };
+            pageService.Create(page).GetAwaiter().GetResult();
+
+            // Create Module
+            module = new Module
+            {
+                Id = Guid.NewGuid(),
+                ModuleDefinitionId = moduleDefinition.Id,
+                PageId = page.Id,
+                Title = "TextHtml Setting",
+                Template = "",
+                Pane = "Content",
+                Setting = new Dictionary<string, string> { { "Direction", "LTR" } }
+            };
+            moduleService.Create(module).GetAwaiter().GetResult();
         }
     }
 }

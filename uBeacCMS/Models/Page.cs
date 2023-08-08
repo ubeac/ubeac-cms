@@ -8,4 +8,5 @@ public class Page : AuditEntity
     public string Description { get; set; }
     public Guid SiteId { get; set; }
     public string Template { get; set; }
+    public bool IsSystem { get; set; } = false;
 }

@@ -1,0 +1,35 @@
+﻿@using Microsoft.AspNetCore.Html;
+@using uBeacCMS.Models;
+@using uBeacCMS.Services;
+@inject IModuleService service;
+@inherits BaseModule;
+
+@code {    
+    private Models.Modules.TextHtmlSetting Setting;
+
+    protected override async Task OnInitializedAsync()
+    {        
+    }
+
+    private async void UpdateModule()
+    {
+        await service.Update(Core.Module);
+    }
+}
+
+
+@foreach(var key in Core.Module.Setting.Keys)
+{
+    <div class="row">
+        <div class="col-12">
+            <label for="@Core.Module.Setting[key]">@key</label>
+            <input label="@key" type="text" value="@Core.Module.Setting[key]">
+        </div>
+    </div>
+}
+
+<div class="row">
+    <div class="col-12">        
+        <button @onclick="UpdateModule">Submit</button>
+    </div>
+</div>

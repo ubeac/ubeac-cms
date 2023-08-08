@@ -1,5 +1,6 @@
 ﻿using uBeacCMS.Models;
 using uBeacCMS.Services;
+using System.Linq;
 
 namespace uBeacCMS.Middlewares;
 
@@ -20,16 +21,44 @@ public class RouteMiddleware
         {
             cmsContext.Site = site;
 
-            var page = await pageService.GetByUrl(context.Request.Path);
+            Page page;
+            var modules = new List<Module>();
+
+            if (context.Request.Path.HasValue && context.Request.Path.Value.ToLower().Contains("/module/"))
+            {
+                var pathSections = context.Request.Path.Value.ToLower().Split('/');
+                if (string.IsNullOrEmpty(pathSections.First()))
+                    pathSections = pathSections.Skip(1).ToArray();
+
+                var systemPath = "";
+
+                // http://localhost:5205/module/texthtml/setting/b1f0a3b9-a158-4ed2-abf4-153ef1cd4d5e
+
+                if (pathSections.Length == 4) 
+                {
+                    var moduleId = Guid.Parse(pathSections[3]);
+                    var moduleDefName = pathSections[1];
+                    var moduleAction = pathSections[2];
+                    cmsContext.ModuleAction = moduleAction;
+                    cmsContext.ModuleDefinition = moduleDefinitionService.GetByName(moduleDefName).GetAwaiter().GetResult();
+                    cmsContext.Module = moduleService.GetById(moduleId).Result;
+                                        
+                }
+                    page = await pageService.GetByUrl("home");
+            }
+            else
+            {
+                page = await pageService.GetByUrl(context.Request.Path);
+                if (page != null)                
+                    modules = (await moduleService.GetByPageId(page.Id)).ToList();
+            }
 
             if (page != null)
             {
-                var modules = await moduleService.GetByPageId(page.Id);
-
                 cmsContext.Page = page;
-                cmsContext.Modules = modules.ToList();
+                cmsContext.Modules = modules;
 
-                if(cmsContext.Modules is not null && cmsContext.Modules.Count > 0)
+                if (cmsContext.Modules is not null && cmsContext.Modules.Count > 0)
                 {
                     var moduleDefinitionIds = cmsContext.Modules.Select(x => x.ModuleDefinitionId).Distinct();
                     cmsContext.ModuleDefinitions = (await moduleDefinitionService.GetByIds(moduleDefinitionIds)).ToList();
