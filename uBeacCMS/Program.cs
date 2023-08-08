@@ -1,5 +1,7 @@
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using System.Reflection;
 using uBeac.Repositories.History.MongoDB;
 using uBeac.Web.Logging;
@@ -7,6 +9,7 @@ using uBeac.Web.Logging.MongoDB;
 using uBeacCMS;
 using uBeacCMS.Middlewares;
 using uBeacCMS.Models;
+using uBeacCMS.Pages;
 using uBeacCMS.Providers;
 using uBeacCMS.Services;
 using Module = uBeacCMS.Models.Module;
@@ -53,7 +56,10 @@ builder.Services.AddHistory<MongoDBHistoryRepository>().For<Site>().For<Page>().
 builder.Services.AddCms();
 
 // Add services to the container.
-builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
+builder.Services.AddRazorPages(options =>
+{
+    options.Conventions.AddPageRoute("/Catchall", "module/{moduleName}/{type}/{id?}");
+}).AddRazorRuntimeCompilation();
 
 
 builder.Services.AddOptions<MvcRazorRuntimeCompilationOptions>().Configure<IServiceProvider>((options, serviceProvider) =>

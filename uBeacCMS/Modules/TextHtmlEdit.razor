@@ -1,0 +1,19 @@
+﻿@using Microsoft.AspNetCore.Html;
+@using uBeacCMS.Models;
+@using uBeacCMS.Services;
+@inject IModuleService service;
+@inherits BaseModule;
+
+
+@code {
+    
+    private Models.Modules.TextHtmlSetting Setting;
+
+    protected override async Task OnInitializedAsync()
+    {
+        //var settings = (await moduleSettingService.GetByModuleId(Module.Id)).ToList();        
+    }
+}
+
+
+Edit Page!

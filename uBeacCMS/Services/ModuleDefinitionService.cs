@@ -6,7 +6,7 @@ namespace uBeacCMS.Services;
 
 public interface IModuleDefinitionService : IEntityService<ModuleDefinition>
 {
-
+    Task<ModuleDefinition> GetByName(string name, CancellationToken cancellationToken = default);
 }
 public class ModuleDefinitionService : EntityService<ModuleDefinition>, IModuleDefinitionService
 {
@@ -15,4 +15,10 @@ public class ModuleDefinitionService : EntityService<ModuleDefinition>, IModuleD
     {
         _repository = repository;
     }
+
+    public Task<ModuleDefinition> GetByName(string name, CancellationToken cancellationToken = default)
+    {
+        return _repository.GetByName(name, cancellationToken);
+    }
+        
 }

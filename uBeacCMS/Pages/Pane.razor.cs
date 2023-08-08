@@ -30,6 +30,20 @@ public partial class Pane : ComponentBase
                 builder.CloseComponent();
             }
         }
+        else if (Core.Module != null && Core.Module.Pane.ToLower() == "content" && Name.ToLower() == "content") 
+        {
+            int i = 0;
+            var typeName = Core.ModuleDefinition.ViewTypes[Core.ModuleAction];
+            var type = Type.GetType($"uBeacCMS.Modules.{typeName}");
+
+            if (type is null)
+                throw new Exception("Module not found!");
+
+            builder.OpenComponent(++i, type);
+            builder.AddAttribute(++i, "core", Core);
+            builder.AddAttribute(++i, "module", Core.Module);
+            builder.CloseComponent();
+        }
     };
 
 }
