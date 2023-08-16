@@ -9,10 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents().AddServerComponents();
 
 builder.Services.Configure<StaticFileRepositorySettings>(builder.Configuration.GetSection("FileRepository"));
-builder.Services.AddOptions<StaticFileRepositorySettings>().Configure(options =>
-{
-
-});
+builder.Services.AddOptions<StaticFileRepositorySettings>();
 
 builder.Services.AddSingleton(typeof(IBaseRepository<>), typeof(StaticFileBaseRepository<>));
 

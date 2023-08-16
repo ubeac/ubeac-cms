@@ -14,4 +14,8 @@
     <ProjectReference Include="..\uBeacCMS.Repositories.StaticFile\uBeacCMS.Repositories.StaticFile.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DB\" />
+  </ItemGroup>
+
 </Project>

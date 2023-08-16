@@ -72,7 +72,7 @@ public class StaticFileBaseRepository<T> : IBaseRepository<T> where T : IBaseEnt
 
     protected virtual string GetFilePath()
     {
-        return folder + "\\" + nameof(T);
+        return folder + "\\" + typeof(T).Name + ".json";
     }
 
 }
