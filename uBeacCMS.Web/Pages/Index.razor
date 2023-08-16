@@ -1,0 +1,18 @@
+﻿@page "/"
+@using uBeacCMS.Models;
+@using uBeacCMS.Repositories;
+@inject IBaseRepository<Site> repo
+
+<PageTitle>Home</PageTitle>
+
+<h1>Home</h1>
+
+Welcome to your new app.
+@code
+{
+    protected override async Task OnInitializedAsync()
+    {
+        var x = await repo.GetAll();
+        await base.OnInitializedAsync();
+    }
+}
