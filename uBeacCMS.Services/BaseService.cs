@@ -6,8 +6,9 @@ namespace uBeacCMS.Services;
 public interface IBaseService<T> where T : IBaseEntity
 {
     Task<IList<T>> GetAll(CancellationToken cancellationToken = default);
-    Task<T> Add(T entity, CancellationToken cancellationToken = default);
-    Task<T> Update(T entity, CancellationToken cancellationToken = default);
+    Task Add(T entity, CancellationToken cancellationToken = default);
+    Task AddRange(IEnumerable<T> entities, CancellationToken cancellationToken = default);
+    Task Update(T entity, CancellationToken cancellationToken = default);
     Task Delete(Guid id, CancellationToken cancellationToken = default);
     Task<T> GetById(Guid id, CancellationToken cancellationToken = default);
 }
@@ -20,9 +21,14 @@ public class BaseService<T> : IBaseService<T> where T : IBaseEntity
     {
         BaseRepository = baseRepository;
     }
-    public Task<T> Add(T entity, CancellationToken cancellationToken = default)
+    public Task Add(T entity, CancellationToken cancellationToken = default)
     {
         return BaseRepository.Add(entity, cancellationToken);
+    }
+
+    public Task AddRange(IEnumerable<T> entities, CancellationToken cancellationToken = default)
+    {
+        return BaseRepository.AddRange(entities, cancellationToken);
     }
 
     public Task Delete(Guid id, CancellationToken cancellationToken = default)
@@ -40,7 +46,7 @@ public class BaseService<T> : IBaseService<T> where T : IBaseEntity
         return BaseRepository.GetById(id, cancellationToken);
     }
 
-    public Task<T> Update(T entity, CancellationToken cancellationToken = default)
+    public Task Update(T entity, CancellationToken cancellationToken = default)
     {
         return BaseRepository.Update(entity, cancellationToken);
     }

@@ -8,5 +8,6 @@ public static class ServiceExtensions
     {
         services.AddScoped(typeof(IBaseService<>), typeof(BaseService<>));
         services.AddScoped<ISiteService, SiteService>();
+        services.AddScoped<IPageService, PageService>();
     }
 }
