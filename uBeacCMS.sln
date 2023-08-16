@@ -5,6 +5,8 @@ VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "uBeacCMS", "uBeacCMS\uBeacCMS.csproj", "{012EDA0E-47B9-4D25-AD9A-EA74E035DF6C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uBeacCMS.Models", "uBeacCMS.Models\uBeacCMS.Models.csproj", "{7F5F7A98-15E7-49C5-B643-7DCBC1FE7071}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{012EDA0E-47B9-4D25-AD9A-EA74E035DF6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{012EDA0E-47B9-4D25-AD9A-EA74E035DF6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{012EDA0E-47B9-4D25-AD9A-EA74E035DF6C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F5F7A98-15E7-49C5-B643-7DCBC1FE7071}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F5F7A98-15E7-49C5-B643-7DCBC1FE7071}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F5F7A98-15E7-49C5-B643-7DCBC1FE7071}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F5F7A98-15E7-49C5-B643-7DCBC1FE7071}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
