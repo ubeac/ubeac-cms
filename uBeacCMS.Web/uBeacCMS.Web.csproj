@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\uBeacCMS.Repositories.StaticFile\uBeacCMS.Repositories.StaticFile.csproj" />
+    <ProjectReference Include="..\uBeacCMS.Services\uBeacCMS.Services.csproj" />
   </ItemGroup>
 
   <ItemGroup>

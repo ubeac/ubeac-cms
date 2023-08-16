@@ -11,7 +11,7 @@ public class Site : BaseEntity
     public string AdministratorRoles { get; set; }
     public string DefaultRoles { get; set; }
     public string ContributorRoles { get; set; }
-    public List<BaseEntitySetting> Settings { get; set; }
+    public Dictionary<string, string> Settings { get; set; }
 }
 
 public class Page : BaseEntity
@@ -26,7 +26,7 @@ public class Page : BaseEntity
     public string AdministratorRoles { get; set; }
     public string AuthorizedRoles { get; set; }
     public string ContributorRoles { get; set; }
-    public List<BaseEntitySetting> Settings { get; set; }
+    public Dictionary<string, string> Settings { get; set; }
 }
 
 public class ModuleDefinition : BaseEntity

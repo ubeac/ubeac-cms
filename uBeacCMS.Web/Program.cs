@@ -1,22 +1,19 @@
 using Microsoft.AspNetCore.Server.Kestrel.Core;
-using System.Configuration;
 using uBeacCMS.Repositories;
-using uBeacCMS.Repositories.StaticFile;
 using uBeacCMS.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorComponents().AddServerComponents();
 
-builder.Services.Configure<StaticFileRepositorySettings>(builder.Configuration.GetSection("FileRepository"));
-builder.Services.AddOptions<StaticFileRepositorySettings>();
-
-builder.Services.AddSingleton(typeof(IBaseRepository<>), typeof(StaticFileBaseRepository<>));
+builder.Services.AddStaticFileRepositories(builder.Configuration);
+builder.Services.AddServices();
 
 builder.Services.Configure<KestrelServerOptions>(options =>
 {
     options.AllowSynchronousIO = true;
 });
+
 
 // If using IIS:
 builder.Services.Configure<IISServerOptions>(options =>
@@ -26,7 +23,8 @@ builder.Services.Configure<IISServerOptions>(options =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+app.Services.SeedDefaultData();
+
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
