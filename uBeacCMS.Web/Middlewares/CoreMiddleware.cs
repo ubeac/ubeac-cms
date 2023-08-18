@@ -8,6 +8,7 @@ public class Context
     public Page? Page { get; set; }
     public Site? Site { get; set; }
     public List<Module>? Modules { get; set; }
+    public List<ModuleDefinition> ModuleDefinitions { get; set; }
 
 }
 
@@ -26,6 +27,9 @@ public class RouteMiddleware
         context.Site = site;
         if (site != null)
         {
+            var moduleDefs = await moduleDefinitionService.GetAll();
+            context.ModuleDefinitions = moduleDefs.ToList();
+
             var page = await pageService.GetByRoute(site.Id, httpContext.Request.Path.Value.ToLower());
             context.Page = page;
             if (page != null) 

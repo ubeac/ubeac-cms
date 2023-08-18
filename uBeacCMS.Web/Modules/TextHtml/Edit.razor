@@ -1,0 +1,23 @@
+﻿@inherits ModuleBase<TextHtmlContent>
+
+<h1>@Model?.Id</h1>
+<div class="text-html">
+    @Model?.Value
+</div>
+
+<EditForm Model=@Model OnSubmit="Submit" FormName="@Module.Id.ToString()">
+    <p>
+        <label>Value</label>
+        <InputTextArea id="Value" @bind-Value="Model.Value" />
+    </p>
+    <p><button type="submit">Submit</button></p>
+</EditForm>
+
+@code {
+    protected void Submit()
+    {
+        Console.WriteLine(Model.Id);
+        Console.WriteLine(Model.Value);
+        Service.Update(Model).ConfigureAwait(false);
+    }
+}

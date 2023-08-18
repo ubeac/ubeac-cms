@@ -27,6 +27,8 @@ public partial class App : ComponentBase
                 var attrCounter = 0;
                 builder.AddAttribute(attrCounter, "modules", Context.Modules.Where(x=> x.Pane.ToLower() == pane.Attributes["name"]).ToList());
                 attrCounter++;
+                builder.AddAttribute(attrCounter, "moduleDefinitions", Context.ModuleDefinitions);
+                attrCounter++;
                 foreach (var attribute in pane.Attributes)
                 {
                     builder.AddAttribute(attrCounter, attribute.Key, attribute.Value);

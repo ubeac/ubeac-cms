@@ -46,9 +46,7 @@ public static class SeedData
     <meta name=""viewport"" content=""width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"" />
     <base href=""/"" />
     <link href=""https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.0/flowbite.min.css"" rel=""stylesheet"" />
-    <link rel=""stylesheet"" href=""css/app.css"" />
     <link rel=""icon"" type=""image/png"" href=""favicon.png"" />
-    <link rel=""stylesheet"" href=""uBeacCMS.Web.styles.css"" />
 </head>
 
 <body>
@@ -136,10 +134,10 @@ public static class SeedData
                 new ModuleDefinition
                 {
                     Id = Guid.NewGuid(),
-                    ViewType = "TextHtmlView",
+                    ViewType = "uBeacCMS.Web.Modules.TextHtml.View",
                     Name = "Text/Html",
                     Category = "General",
-                    EditType = "TextHtmlEdit"
+                    EditType = "uBeacCMS.Web.Modules.TextHtml.Edit"
                 }
             };
 
@@ -181,19 +179,19 @@ public static class SeedData
                 new TextHtmlContent
                 {
                     Id= Guid.NewGuid(),
-                    Content = "TextHtmlContent 1",
+                    Value = "TextHtmlContent 1",
                     ModuleId = modules[0].Id
                 },
                 new TextHtmlContent
                 {
                     Id= Guid.NewGuid(),
-                    Content = "TextHtmlContent 2",
+                    Value = "TextHtmlContent 2",
                     ModuleId = modules[1].Id
                 },
                 new TextHtmlContent
                 {
                     Id= Guid.NewGuid(),
-                    Content = "TextHtmlContent 3",
+                    Value = "TextHtmlContent 3",
                     ModuleId = modules[2].Id
                 }
             };
