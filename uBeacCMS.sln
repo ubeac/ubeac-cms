@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "uBeacCMS.Repositories", "uB
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "uBeacCMS.Repositories.StaticFile", "uBeacCMS.Repositories.StaticFile\uBeacCMS.Repositories.StaticFile.csproj", "{25100535-FA4F-4153-8C14-95C74A7A7831}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uBeacCMS.Services", "uBeacCMS.Services\uBeacCMS.Services.csproj", "{4D6BC994-CF12-4DBA-9123-41D697016059}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "uBeacCMS.Services", "uBeacCMS.Services\uBeacCMS.Services.csproj", "{4D6BC994-CF12-4DBA-9123-41D697016059}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

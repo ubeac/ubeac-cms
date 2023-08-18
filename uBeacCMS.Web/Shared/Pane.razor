@@ -1,0 +1,19 @@
+﻿@using uBeacCMS.Models;
+@using uBeacCMS.Web.Modules.TextHtml;
+<div class="pane">
+
+@foreach (var module in Modules)
+{
+    @* <DynamicComponent Type="@typeof(TextHtmlView)" Parameters="" *@
+}
+
+</div>
+
+@code {
+
+    [ParameterAttribute]
+    public string Name { get; set; } = "content";
+
+    [ParameterAttribute]
+    public List<Module> Modules { get; set; } = new List<Module>();
+}

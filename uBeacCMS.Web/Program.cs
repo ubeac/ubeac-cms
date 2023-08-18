@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using uBeacCMS.Repositories;
 using uBeacCMS.Web;
+using uBeacCMS.Web.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +9,7 @@ builder.Services.AddRazorComponents().AddServerComponents();
 
 builder.Services.AddStaticFileRepositories(builder.Configuration);
 builder.Services.AddServices();
+builder.Services.AddScoped<Context>();
 
 builder.Services.Configure<KestrelServerOptions>(options =>
 {
@@ -31,6 +33,8 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseStaticFiles();
+
+app.UseCmsContext();
 
 app.MapRazorComponents<App>();
 

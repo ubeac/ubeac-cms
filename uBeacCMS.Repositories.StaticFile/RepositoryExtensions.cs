@@ -11,5 +11,6 @@ public static class RepositoryExtensions
         services.AddOptions<StaticFileRepositorySettings>();
 
         services.AddSingleton(typeof(IBaseRepository<>), typeof(StaticFileBaseRepository<>));
+        services.AddSingleton(typeof(IBaseContentRepository<>), typeof(StaticFileBaseContentRepository<>));
     }
 }
