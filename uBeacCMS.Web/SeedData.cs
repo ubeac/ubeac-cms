@@ -1,6 +1,4 @@
-﻿using uBeacCMS.Models;
-using uBeacCMS.Services;
-using uBeacCMS.Web.Modules.TextHtml;
+﻿using uBeacCMS.Web.Modules.TextHtml;
 
 namespace uBeacCMS.Repositories;
 

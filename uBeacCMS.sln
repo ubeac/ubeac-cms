@@ -15,6 +15,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "uBeacCMS.Repositories.Stati
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "uBeacCMS.Services", "uBeacCMS.Services\uBeacCMS.Services.csproj", "{4D6BC994-CF12-4DBA-9123-41D697016059}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uBeacCMS.Web.Components", "uBeacCMS.Web.Components\uBeacCMS.Web.Components.csproj", "{3A233CD8-DC4E-4A30-868D-3032AE7C5AAD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uBeacCMS.Web.Core", "uBeacCMS.Web.Core\uBeacCMS.Web.Core.csproj", "{7E52C0BB-07F3-449B-8E4A-6EAC36605798}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +49,14 @@ Global
 		{4D6BC994-CF12-4DBA-9123-41D697016059}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4D6BC994-CF12-4DBA-9123-41D697016059}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4D6BC994-CF12-4DBA-9123-41D697016059}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A233CD8-DC4E-4A30-868D-3032AE7C5AAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A233CD8-DC4E-4A30-868D-3032AE7C5AAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A233CD8-DC4E-4A30-868D-3032AE7C5AAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A233CD8-DC4E-4A30-868D-3032AE7C5AAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E52C0BB-07F3-449B-8E4A-6EAC36605798}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E52C0BB-07F3-449B-8E4A-6EAC36605798}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E52C0BB-07F3-449B-8E4A-6EAC36605798}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E52C0BB-07F3-449B-8E4A-6EAC36605798}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

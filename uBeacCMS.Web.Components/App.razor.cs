@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Components;
 using System.Text.RegularExpressions;
-using uBeacCMS.Web.Middlewares;
-using uBeacCMS.Web.Shared;
+using uBeacCMS.Web.Core.Middlewares;
 
-namespace uBeacCMS.Web;
+namespace uBeacCMS.Web.Components;
 
 public partial class App : ComponentBase
 {

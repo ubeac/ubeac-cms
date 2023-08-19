@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using uBeacCMS.Repositories;
 using uBeacCMS.Web;
-using uBeacCMS.Web.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 

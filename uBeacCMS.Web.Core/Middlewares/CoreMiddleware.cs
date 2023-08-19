@@ -1,7 +1,8 @@
-﻿using uBeacCMS.Models;
+﻿using Microsoft.AspNetCore.Http;
+using uBeacCMS.Models;
 using uBeacCMS.Services;
 
-namespace uBeacCMS.Web.Middlewares;
+namespace uBeacCMS.Web.Core.Middlewares;
 
 public class Context
 {
@@ -40,13 +41,5 @@ public class RouteMiddleware
         }
 
         await _next(httpContext);
-    }
-}
-
-public static class CoreMiddlewareExtensions
-{
-    public static IApplicationBuilder UseCmsContext(this IApplicationBuilder builder)
-    {
-        return builder.UseMiddleware<RouteMiddleware>();
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using uBeacCMS.Models;
 
-namespace uBeacCMS.Web.Shared;
+namespace uBeacCMS.Web.Components;
 
 public partial class Pane : ComponentBase
 {
@@ -19,7 +19,11 @@ public partial class Pane : ComponentBase
         var moduleDefinition = GetByModule(module);
         if (moduleDefinition != null)
         {
-            var moduleType = Type.GetType(moduleDefinition.ViewType);
+            var typeName = moduleDefinition.ViewType;
+            
+            // TODO: Find a better way to get type
+            // Implement a Service to get type by name and cache
+            var moduleType = AppDomain.CurrentDomain.GetAssemblies().SelectMany(x => x.GetTypes()).Where(x => x.FullName == typeName).SingleOrDefault();
             if (moduleType != null)
             {
                 builder.OpenComponent(0, moduleType);
