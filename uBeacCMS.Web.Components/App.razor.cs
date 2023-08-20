@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Components;
 using System.Text.RegularExpressions;
-using uBeacCMS.Web.Core.Middlewares;
+using uBeacCMS.Web.Core;
 
 namespace uBeacCMS.Web.Components;
 
 public partial class App : ComponentBase
 {
     [Inject]
-    protected Context? Context { get; set; }
+    protected RequestContext? Context { get; set; }
 
     public RenderFragment RenderPage() => builder =>
     {

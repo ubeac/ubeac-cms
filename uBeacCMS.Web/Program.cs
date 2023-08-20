@@ -8,7 +8,7 @@ builder.Services.AddRazorComponents().AddServerComponents();
 
 builder.Services.AddStaticFileRepositories(builder.Configuration);
 builder.Services.AddServices();
-builder.Services.AddScoped<Context>();
+builder.Services.AddCmsServices();
 
 builder.Services.Configure<KestrelServerOptions>(options =>
 {
