@@ -3,7 +3,6 @@ using uBeacCMS.Services;
 
 namespace uBeacCMS.Web.Core.Middleware;
 
-
 public class ModuleMiddleware
 {
     private readonly RequestDelegate _next;

@@ -1,10 +1,4 @@
 ﻿@inherits ModuleBase<TextHtmlContent>
-
-<h1>@Model?.Id</h1>
-<div class="text-html">
-    @Model?.Value
-</div>
-
 <EditForm Model=@Model OnSubmit="Submit" FormName="@Module.Id.ToString()">
     <p>
         <label>Value</label>
@@ -14,10 +8,8 @@
 </EditForm>
 
 @code {
-    protected void Submit()
+    void Submit()
     {
-        Console.WriteLine(Model.Id);
-        Console.WriteLine(Model.Value);
         Service.Update(Model).ConfigureAwait(false);
     }
 }

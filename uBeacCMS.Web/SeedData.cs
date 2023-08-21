@@ -56,7 +56,7 @@ public static class SeedData
                 <pane name=""left""></pane>
             </div>
             <div class=""col border"">
-                <pane name=""content""></pane>
+                <pane name=""default""></pane>
             </div>
             <div class=""col-2 border"">
                 <pane name=""right""></pane>
@@ -145,7 +145,7 @@ public static class SeedData
                     Id = Guid.NewGuid(),
                     ModuleDefinitionId = moduleDefinitions[0].Id,
                     PageId = pages[0].Id,
-                    Pane = "content",
+                    Pane = "default",
                     Title = "Hello text html 1"
                 },
                 new Module
@@ -153,7 +153,7 @@ public static class SeedData
                     Id = Guid.NewGuid(),
                     ModuleDefinitionId = moduleDefinitions[0].Id,
                     PageId = pages[0].Id,
-                    Pane = "content",
+                    Pane = "default",
                     Title = "Hello text html 2"
                 },
                 new Module

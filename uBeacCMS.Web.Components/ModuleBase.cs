@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
-
-namespace uBeacCMS.Web.Modules;
+﻿namespace uBeacCMS.Web.Components;
 
 [RenderModeServer]
 public class ModuleBase : ComponentBase

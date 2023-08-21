@@ -16,6 +16,8 @@ public static class ServiceExtensions
         builder.UseMiddleware<SiteMiddleware>();
         builder.UseMiddleware<ModuleDefinitionMiddleware>();
         builder.UseMiddleware<PageMiddleware>();
-        return builder.UseMiddleware<ModuleMiddleware>();
+        builder.UseMiddleware<ModuleMiddleware>();
+        builder.UseMiddleware<ModuleEditMiddleware>();
+        return builder;
     }
 }

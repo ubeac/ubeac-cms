@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
-using System.Text.RegularExpressions;
-using uBeacCMS.Web.Core;
+﻿using System.Text.RegularExpressions;
 
 namespace uBeacCMS.Web.Components;
 
@@ -9,9 +7,12 @@ public partial class App : ComponentBase
     [Inject]
     protected RequestContext? Context { get; set; }
 
+    [Parameter]
+    public string PageRoute { get; set; }
+
     public RenderFragment RenderPage() => builder =>
     {
-        if (Context?.Site != null)
+        if (Context?.Site != null && Context?.IsValid == true)
         {
             var markup = Context.Site.Skins[0].Markup;
             var paneTags = CustomTagExtractor.ExtractCustomTags(markup, "pane");
@@ -24,9 +25,9 @@ public partial class App : ComponentBase
                 paneCounter++;
                 builder.OpenComponent<Pane>(paneCounter);
                 var attrCounter = 0;
-                builder.AddAttribute(attrCounter, "modules", Context.Modules.Where(x=> x.Pane.ToLower() == pane.Attributes["name"]).ToList());
+                builder.AddAttribute(attrCounter, "modules", Context?.Modules?.Where(x => x.Pane.ToLower() == pane.Attributes["name"]).ToList());
                 attrCounter++;
-                builder.AddAttribute(attrCounter, "moduleDefinitions", Context.ModuleDefinitions);
+                builder.AddAttribute(attrCounter, "moduleDefinitions", Context?.ModuleDefinitions);
                 attrCounter++;
                 foreach (var attribute in pane.Attributes)
                 {

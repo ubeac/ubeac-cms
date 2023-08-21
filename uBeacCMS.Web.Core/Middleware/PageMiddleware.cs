@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
-using uBeacCMS.Models;
 using uBeacCMS.Services;
 
 namespace uBeacCMS.Web.Core.Middleware;
-
 
 public class PageMiddleware
 {
@@ -18,7 +16,12 @@ public class PageMiddleware
     {
         if (context.Site != null)
         {
-            context.Page = await pageService.GetByRoute(context.Site.Id, httpContext.Request.Path.Value.ToLower());
+            var page = await pageService.GetByRoute(context.Site.Id, httpContext.Request.Path.Value.ToLower());
+            if (page != null) 
+            {
+                context.Page = page;
+                context.IsValid = true;
+            }            
         }
 
         await _next(httpContext);
