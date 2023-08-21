@@ -1,7 +1,4 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
-using uBeacCMS.Models;
-using uBeacCMS.Services;
 
 namespace uBeacCMS.Web.Modules;
 

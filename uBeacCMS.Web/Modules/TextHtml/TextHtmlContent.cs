@@ -1,6 +1,4 @@
-﻿using uBeacCMS.Models;
-
-namespace uBeacCMS.Web.Modules.TextHtml;
+﻿namespace uBeacCMS.Web.Modules.TextHtml;
 
 public class TextHtmlContent : BaseContent
 {

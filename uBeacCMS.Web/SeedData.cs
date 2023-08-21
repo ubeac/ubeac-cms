@@ -35,38 +35,35 @@ public static class SeedData
                     {
                          Name = "Default",
                          Type= SkinType.Site,
-                         Markup=@"
-<!DOCTYPE html>
+                         Markup=@"<!doctype html>
 <html lang=""en"">
-
 <head>
-    <meta charset=""utf-8"" />
-    <meta name=""viewport"" content=""width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"" />
+    <meta charset=""utf-8"">
+    <meta name=""viewport"" content=""width=device-width, initial-scale=1"">
     <base href=""/"" />
-    <link href=""https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.0/flowbite.min.css"" rel=""stylesheet"" />
-    <link rel=""icon"" type=""image/png"" href=""favicon.png"" />
+    <link href=""https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"" rel=""stylesheet"" integrity=""sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"" crossorigin=""anonymous"">
+    <title>Bootstrap demo</title>
 </head>
-
 <body>
-    <div class=""antialiased bg-gray-50 dark:bg-gray-900"">
-        <main class=""p-4 md:ml-64 h-auto"">
-            <div class=""border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 mb-4"">
+    <div class=""container text-center"">
+        <div class=""row"">
+            <div class=""col border"">
                 <pane name=""top""></pane>
             </div>
-            <div class=""grid grid-cols-3 gap-4 mb-4"">
-                <div class=""border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600"">
-                    <pane name=""left""></pane>
-                </div>
-                <div class=""border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600"">
-                    <pane name=""content""></pane>
-                </div>
-                <div class=""border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600"">
-                    <pane name=""right""></pane>
-                </div>
+        </div>
+        <div class=""row"">
+            <div class=""col-2 border"">
+                <pane name=""left""></pane>
             </div>
-        </main>
+            <div class=""col border"">
+                <pane name=""content""></pane>
+            </div>
+            <div class=""col-2 border"">
+                <pane name=""right""></pane>
+            </div>
+        </div>
     </div>
-    <script src=""https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.0/flowbite.min.js""></script>
+    <script src=""https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"" integrity=""sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"" crossorigin=""anonymous""></script>
     <script src=""_framework/blazor.web.js"" suppress-error=""BL9992""></script>
 </body>
 </html>
