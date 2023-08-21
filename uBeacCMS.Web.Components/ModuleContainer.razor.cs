@@ -1,6 +1,4 @@
-﻿using uBeacCMS.Web.Core;
-
-namespace uBeacCMS.Web.Components;
+﻿namespace uBeacCMS.Web.Components;
 
 public partial class ModuleContainer : ComponentBase
 {
@@ -38,7 +36,7 @@ public partial class ModuleContainer : ComponentBase
             if (moduleType != null)
             {
                 builder.OpenComponent(0, moduleType);
-                builder.AddAttribute(1, "Module", Module);
+                builder.AddAttribute(0, "Module", Module);
                 builder.AddAttribute(1, "ModuleDefinition", ModuleDefinition);
                 builder.CloseComponent();
             }

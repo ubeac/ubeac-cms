@@ -53,6 +53,38 @@ public class CustomTagDetails
 }
 public class CustomTagExtractor
 {
+    public static List<CustomTagDetails> ExtractCustomTags(string html, List<string> tagNames)
+    {
+        List<CustomTagDetails> customTags = new List<CustomTagDetails>();
+        string pattern = "";
+        foreach (var tagName in tagNames)
+        {
+            pattern += $"<{tagName}([^>]*)\\s*(\\/|>((.|\\n)*?)<\\/{tagName}>)|";
+        }
+
+        pattern = pattern.Substring(0, pattern.Length - 1);
+
+        MatchCollection matches = Regex.Matches(html, pattern, RegexOptions.Singleline);
+
+        foreach (Match match in matches)
+        {
+            int startIndex = match.Index;
+            int endIndex = startIndex + match.Length - 1;
+            string tagAttributes = match.Groups[1].Value;
+            string tagContent = match.Groups[match.Groups.Count - 2].Value;
+            Dictionary<string, string> attributes = ExtractAttributes(tagAttributes);
+
+            customTags.Add(new CustomTagDetails
+            {
+                StartIndex = startIndex,
+                EndIndex = endIndex,
+                Attributes = attributes
+            });
+        }
+
+        return customTags;
+    }
+    
     public static List<CustomTagDetails> ExtractCustomTags(string html, string tagName)
     {
         List<CustomTagDetails> customTags = new List<CustomTagDetails>();

@@ -1,5 +1,6 @@
-﻿<div class="module" id="m_@Module?.Id">
-    <a href="/module/edit/@Module?.Id">Edit</a>
-    <br />
-    @RenderModule()
+﻿<div class="module-container">
+    <div class="mb-3"><a href="/module/edit/@Module?.Id">Edit</a></div>
+    <div class="module" id="m_@Module?.Id">
+        @RenderModule()
+    </div>
 </div>
