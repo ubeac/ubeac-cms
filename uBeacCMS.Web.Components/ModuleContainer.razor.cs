@@ -6,10 +6,28 @@ public partial class ModuleContainer : ComponentBase
     public Module? Module { get; set; }
 
     [Parameter]
+    public bool ShowModuleFeatures { get; set; } = false;
+
+    [Parameter]
     public ModuleDefinition? ModuleDefinition { get; set; }
 
     [Inject]
     public RequestContext? Context { get; set; }
+
+    [Inject]
+    public NavigationManager NavManager { get; set; }
+    private void Navigate()
+    {
+        NavManager.NavigateTo($"/module/edit/{Module?.Id}");
+    }
+
+    protected override void OnParametersSet()
+    {
+        if (ModuleDefinition != null && Context?.ViewType == RequestViewType.Normal)
+            ShowModuleFeatures = true;
+
+        base.OnParametersSet();
+    }
 
     private RenderFragment RenderModule() => builder =>
     {
@@ -24,6 +42,7 @@ public partial class ModuleContainer : ComponentBase
 
                 case RequestViewType.Normal:
                     typeName = ModuleDefinition?.ViewType;
+                    //ShowModuleFeatures = true;
                     break;
 
                 default:

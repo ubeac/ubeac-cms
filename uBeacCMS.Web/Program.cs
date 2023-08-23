@@ -25,11 +25,6 @@ var app = builder.Build();
 
 app.Services.SeedDefaultData();
 
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Error");
-}
-
 app.UseStaticFiles();
 
 app.UseCmsContext();
