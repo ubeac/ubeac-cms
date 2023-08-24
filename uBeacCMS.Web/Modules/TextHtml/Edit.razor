@@ -1,13 +1,22 @@
 ﻿@inherits ModuleBase<TextHtmlContent>
+@inject NavigationManager NavigationManager
+
 <EditForm Model=@Model OnSubmit="Submit" FormName="@Module.Id.ToString()">
-    <p>
-        <label>Value</label>
-        <InputTextArea id="Value" @bind-Value="Model.Value" />
-    </p>
-    <p><button type="submit">Submit</button></p>
+    <div class="mb-3">
+        <label class="form-label">Content</label>
+        <InputTextArea class="form-control" @bind-Value="Model.Value" />
+    </div>
+    <div class="pt-4">
+        <button type="submit" class="btn btn-primary me-sm-3 me-1 waves-effect waves-light">Submit</button>
+        <button @onclick="Cancel" class="btn btn-label-secondary waves-effect">Cancel</button>
+    </div>
 </EditForm>
 
 @code {
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("/");
+    }
     void Submit()
     {
         Service.Update(Model).ConfigureAwait(false);

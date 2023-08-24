@@ -1,11 +1,22 @@
-﻿<div class="module-container">
-    @if (ShowModuleFeatures)
-    {
-        <div class="mb-3">
-            <a href="/module/edit/@Module?.Id">Edit</a>
+﻿<div class="module-container card mb-4">
+    <div class="card-header d-flex justify-content-between">
+        <div class="card-title">
+            <h5 class="mb-0">@Module?.Title</h5>
         </div>
-    }
-    <div class="module" id="m_@Module?.Id">
+        @if (ShowModuleFeatures)
+        {
+            <div class="dropdown">
+                <button class="btn p-0" type="button" id="sourceVisits" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="ti ti-dots-vertical ti-sm text-muted"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="sourceVisits" style="">
+                    <a class="dropdown-item" href="/module/edit/@Module?.Id">Edit</a>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="module card-body" id="m_@Module?.Id">
         @RenderModule()
     </div>
 </div>
