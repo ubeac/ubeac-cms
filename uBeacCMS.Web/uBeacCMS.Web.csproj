@@ -20,4 +20,10 @@
     <Folder Include="DB\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="wwwroot\assets\test.html">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

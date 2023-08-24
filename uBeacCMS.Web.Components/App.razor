@@ -1,3 +1,3 @@
-﻿@page "/{*pageRoute}"
-
+﻿@page "/{*pageRoute:regex(^((?!assets/).)*$)}"
+@page "/"
 @RenderPage()
