@@ -2,9 +2,8 @@
     @if (ShowModuleFeatures)
     {
         <div class="mb-3">
-            <a href="#" onclick="Navigate" onclick:preventDefault>Edit</a>
-            @* <a href="/module/edit/@Module?.Id">Edit</a></div> *@
-            </div>
+            <a href="/module/edit/@Module?.Id">Edit</a>
+        </div>
     }
     <div class="module" id="m_@Module?.Id">
         @RenderModule()

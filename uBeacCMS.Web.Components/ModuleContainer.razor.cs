@@ -13,14 +13,7 @@ public partial class ModuleContainer : ComponentBase
 
     [Inject]
     public RequestContext? Context { get; set; }
-
-    [Inject]
-    public NavigationManager NavManager { get; set; }
-    private void Navigate()
-    {
-        NavManager.NavigateTo($"/module/edit/{Module?.Id}");
-    }
-
+    
     protected override void OnParametersSet()
     {
         if (ModuleDefinition != null && Context?.ViewType == RequestViewType.Normal)
