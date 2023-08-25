@@ -15,32 +15,40 @@ public class DefaultViewMiddleware
 
     public async Task InvokeAsync(HttpContext httpContext, ViewContext context, ISiteService siteService, ISkinService skinService, IPageService pageService, IModuleDefinitionService moduleDefinitionService, IModuleService moduleService)
     {
-
-        context.ModuleDefinitions = (await moduleDefinitionService.GetAll()).ToList();
-
-        var site = await siteService.GetByDomain(httpContext.Request.Host.Value);
-        if (site != null)
+        if (IsDynamicRoute(httpContext))
         {
-            context.Site = site;
-            context.SiteSkins = (await skinService.GetByIds(site.SkinIds)).ToList();
-            context.Skin = context.SiteSkins?.Where(x => x.Type == ViewType.Normal && x.ContainerType == SkinContainerType.Site).Single();
+            context.ModuleDefinitions = (await moduleDefinitionService.GetAll()).ToList();
 
-            var page = await pageService.GetByRoute(context.Site.Id, httpContext.Request.Path.Value.ToLower());
-            if (page != null)
+            var site = await siteService.GetByDomain(httpContext.Request.Host.Value);
+            if (site != null)
             {
-                context.Page = page;
+                context.Site = site;
+                context.SiteSkins = (await skinService.GetByIds(site.SkinIds)).ToList();
+                context.Skin = context.SiteSkins?.Where(x => x.Type == ViewType.Normal && x.ContainerType == SkinContainerType.Site).Single();
 
-                var modules = await moduleService.GetByPageId(context.Page.Id);
-                context.Modules = modules.ToList();
+                var page = await pageService.GetByRoute(context.Site.Id, httpContext.Request.Path.Value.ToLower());
+                if (page != null)
+                {
+                    context.Page = page;
 
-                if (page.SkinId.HasValue)
-                    context.Skin = await skinService.GetById(page.SkinId.Value);
+                    var modules = await moduleService.GetByPageId(context.Page.Id);
+                    context.Modules = modules.ToList();
 
-                context.ViewType = ViewType.Normal;
+                    if (page.SkinId.HasValue)
+                        context.Skin = await skinService.GetById(page.SkinId.Value);
+
+                    context.ViewType = ViewType.Normal;
+                }
             }
+
         }
 
         await _next(httpContext);
+    }
+
+    private bool IsDynamicRoute(HttpContext httpContext)
+    {
+        return httpContext.Request.Path.Value.IndexOf(".") < 0;
     }
 
 }

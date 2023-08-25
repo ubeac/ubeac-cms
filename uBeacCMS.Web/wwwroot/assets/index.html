@@ -95,17 +95,37 @@
                 <ul class="menu-inner py-1">
                     <!-- Page -->
                     <li class="menu-item active">
-                        <a href="index.html" class="menu-link">
+                        <a href="/" class="menu-link">
                             <i class="menu-icon tf-icons ti ti-smart-home"></i>
-                            <div data-i18n="Page 1">Page 1</div>
+                            <div data-i18n="Home">Home</div>
                         </a>
                     </li>
                     <li class="menu-item">
-                        <a href="page-2.html" class="menu-link">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class="menu-icon tf-icons ti ti-layout-sidebar"></i>
+                            <div data-i18n="Servers">Servers</div>
+                        </a>
+                        <ul class="menu-sub">
+
+                            <li class="menu-item">
+                                <a href="/servers/dell" class="menu-link">
+                                    <div data-i18n="Dell">Dell</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="/servers/hp" class="menu-link">
+                                    <div data-i18n="HP">HP</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="menu-item">
+                        <a href="/about" class="menu-link">
                             <i class="menu-icon tf-icons ti ti-app-window"></i>
-                            <div data-i18n="Page 2">Page 2</div>
+                            <div data-i18n="About">About</div>
                         </a>
                     </li>
+
                 </ul>
             </aside>
             <!-- / Menu -->
@@ -205,6 +225,7 @@
                         </div>
                     </div>
                     <!-- / Content -->
+
                     <!-- Footer -->
                     <footer class="content-footer footer bg-footer-theme">
                         <div class="container-xxl">
