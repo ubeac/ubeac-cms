@@ -26,6 +26,7 @@ public class ModuleEditViewMiddleware
                     var module = await moduleService.GetById(moduleId);
                     if (module != null)
                     {
+                        module.Pane = "default";
                         context.Modules = new List<Module> { module };
                         context.ViewType = ViewType.Edit;
                         context.Skin = context.SiteSkins?.Where(x => x.Type == ViewType.Edit).Single();
