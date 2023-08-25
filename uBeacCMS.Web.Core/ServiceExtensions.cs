@@ -8,16 +8,13 @@ public static class ServiceExtensions
 {
     public static IServiceCollection AddCmsServices(this IServiceCollection services)
     {
-        return services.AddScoped<RequestContext>();
+        return services.AddScoped<ViewContext>();
     }
 
     public static IApplicationBuilder UseCmsContext(this IApplicationBuilder builder)
     {
-        builder.UseMiddleware<SiteMiddleware>();
-        builder.UseMiddleware<ModuleDefinitionMiddleware>();
-        builder.UseMiddleware<PageMiddleware>();
-        builder.UseMiddleware<ModuleMiddleware>();
-        builder.UseMiddleware<ModuleEditMiddleware>();
+        builder.UseMiddleware<DefaultViewMiddleware>();
+        builder.UseMiddleware<ModuleEditViewMiddleware>();
         return builder;
     }
 }

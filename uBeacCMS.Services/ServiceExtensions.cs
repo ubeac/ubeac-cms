@@ -11,6 +11,7 @@ public static class ServiceExtensions
         services.AddScoped<ISiteService, SiteService>();
         services.AddScoped<IPageService, PageService>();
         services.AddScoped<IModuleService, ModuleService>();
+        services.AddScoped<ISkinService, SkinService>();
         services.AddScoped<IModuleDefinitionService, ModuleDefinitionService>();
     }
 }

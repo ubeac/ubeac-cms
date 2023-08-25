@@ -1,6 +1,6 @@
 ﻿namespace uBeacCMS.Models;
 
-public enum SkinType
+public enum SkinContainerType
 {
     Site = 0,
     Page = 1,

@@ -13,6 +13,6 @@ public class Page : BaseEntity
     public string? AuthorizedRoles { get; set; }
     public string? ContributorRoles { get; set; }
     public Dictionary<string, string>? Settings { get; set; }
-    public Skin? Skin { get; set; }
+    public Guid? SkinId { get; set; }
 }
 

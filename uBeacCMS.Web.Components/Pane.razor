@@ -1,6 +1,6 @@
 ﻿<div class="pane pane-@Name">
     @foreach (var module in Modules)
     {
-        <ModuleContainer Module="@module" ModuleDefinition="@GetByModule(module)"></ModuleContainer>
+        <ModuleContainer Context="@Context" Module="@module" ModuleDefinition="@GetByModule(module)"></ModuleContainer>
     }
 </div>

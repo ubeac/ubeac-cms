@@ -20,5 +20,6 @@
     void Submit()
     {
         Service.Update(Model).ConfigureAwait(false);
+        NavigationManager.NavigateTo("/");
     }
 }

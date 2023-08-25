@@ -9,10 +9,10 @@ public partial class Pane : ComponentBase
     public List<Module> Modules { get; set; } = new List<Module>();
 
     [Parameter]
-    public List<ModuleDefinition> ModuleDefinitions { get; set; } = new List<ModuleDefinition>();
-    
-    private ModuleDefinition? GetByModule(Module module) 
+    public ViewContext? Context { get; set; }
+
+    private ModuleDefinition? GetByModule(Module module)
     {
-        return ModuleDefinitions.Where(x => x.Id == module.ModuleDefinitionId).SingleOrDefault();
+        return Context?.ModuleDefinitions.Where(x => x.Id == module.ModuleDefinitionId).SingleOrDefault();
     }
 }

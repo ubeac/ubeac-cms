@@ -5,16 +5,16 @@ namespace uBeacCMS.Web.Components;
 public partial class App : ComponentBase
 {
     [Inject]
-    protected RequestContext? Context { get; set; }
+    protected ViewContext? Context { get; set; }
 
     [Parameter]
-    public string PageRoute { get; set; }
+    public string? PageRoute { get; set; }
 
     public RenderFragment RenderPage() => builder =>
     {
-        if (Context?.Site != null && Context?.IsValid == true)
+        if (Context?.Site != null)
         {
-            var markup = Context.Site.Skins[0].Markup;
+            var markup = Context.Skin?.Markup;
             var paneTags = CustomTagExtractor.ExtractCustomTags(markup, "pane");
 
             var paneCounter = 0;
@@ -27,7 +27,7 @@ public partial class App : ComponentBase
                 var attrCounter = 0;
                 builder.AddAttribute(attrCounter, "modules", Context?.Modules?.Where(x => x.Pane.ToLower() == pane.Attributes["name"]).ToList());
                 attrCounter++;
-                builder.AddAttribute(attrCounter, "moduleDefinitions", Context?.ModuleDefinitions);
+                builder.AddAttribute(attrCounter, "context", Context);
                 attrCounter++;
                 foreach (var attribute in pane.Attributes)
                 {

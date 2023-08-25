@@ -11,12 +11,12 @@ public partial class ModuleContainer : ComponentBase
     [Parameter]
     public ModuleDefinition? ModuleDefinition { get; set; }
 
-    [Inject]
-    public RequestContext? Context { get; set; }
+    [Parameter]
+    public ViewContext? Context { get; set; }
     
     protected override void OnParametersSet()
     {
-        if (ModuleDefinition != null && Context?.ViewType == RequestViewType.Normal)
+        if (ModuleDefinition != null && Context?.ViewType == ViewType.Normal)
             ShowModuleFeatures = true;
 
         base.OnParametersSet();
@@ -29,11 +29,11 @@ public partial class ModuleContainer : ComponentBase
             var typeName = "";
             switch (Context?.ViewType)
             {
-                case RequestViewType.Edit:
+                case ViewType.Edit:
                     typeName = ModuleDefinition?.EditType;
                     break;
 
-                case RequestViewType.Normal:
+                case ViewType.Normal:
                     typeName = ModuleDefinition?.ViewType;
                     //ShowModuleFeatures = true;
                     break;
