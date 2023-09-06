@@ -7,16 +7,15 @@ namespace Controllers;
 
 [ApiController]
 [Route("api/[controller]/{contentType}/[action]")]
-public class BaseContentController<TEntity> where TEntity : class, IBaseContent
+[Produces("application/json")]
+public class BaseContentController<TEntity> : ControllerBase where TEntity : class, IBaseContent
 {
 
-    private readonly IBaseEntityRepository<ContentTypeDefinition> _contentTypeRepository;
     protected IBaseContentService<TEntity> Service { get; }
 
-    public BaseContentController(IBaseContentService<TEntity> service, IBaseEntityRepository<ContentTypeDefinition> contentTypeRepository)
+    public BaseContentController(IBaseContentService<TEntity> service)
     {
         Service = service;
-        _contentTypeRepository = contentTypeRepository;
     }
 
     [HttpPost]

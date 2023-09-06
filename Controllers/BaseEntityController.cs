@@ -4,9 +4,7 @@ using Services;
 
 namespace Controllers;
 
-[ApiController]
-[Route("api/[controller]/[action]")]
-public class BaseEntityController<TEntity> where TEntity : class, IBaseEntity
+public class BaseEntityController<TEntity> : BaseController where TEntity : class, IBaseEntity
 {
     protected IBaseEntityService<TEntity> Service { get; }
 
