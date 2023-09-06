@@ -9,6 +9,12 @@ public static class ServiceExtensions
     {
         var assembly = Assembly.GetAssembly(typeof(BaseContentController<>));
         mvcBuilder.AddApplicationPart(assembly).AddControllersAsServices();
+
+        mvcBuilder.ConfigureApplicationPartManager(manager =>
+         {
+             manager.FeatureProviders.Add(new MyControllerFeatureProvider());
+         });
+
         return mvcBuilder;
     }
 }
