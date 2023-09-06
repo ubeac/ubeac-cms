@@ -1,10 +1,11 @@
+using Controllers;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var services = builder.Services;
 
-services.AddMongoDb(builder.Configuration);
+services.AddMongoDbRepositories(builder.Configuration);
 
 services.AddServices();
 
@@ -25,6 +26,8 @@ app.UseDefaultFiles();
 app.UseStaticFiles();
 
 app.UseAuthorization();
+
+app.UseMiddleware<CoreMiddleware>();
 
 app.MapControllers();
 

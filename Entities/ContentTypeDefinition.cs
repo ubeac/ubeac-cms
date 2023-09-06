@@ -1,7 +1,8 @@
 ﻿namespace Entities;
-public class ContentDefinition : IEntity<Guid>
+
+public class ContentTypeDefinition : BaseEntity
 {
-    public Guid Id { get; set; }
+    public Guid SiteId { get; set; }
     public string Name { get; set; }
     public List<FieldDefinition> Fields { get; set; }
 }

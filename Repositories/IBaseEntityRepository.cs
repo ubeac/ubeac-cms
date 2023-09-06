@@ -3,30 +3,23 @@ using System.Linq.Expressions;
 
 namespace Repositories;
 
-public interface IRepository
+public interface IBaseEntityRepository
 {
 }
 
-public interface IRepository<TEntity> : IRepository<TEntity, Guid> where TEntity : class, IEntity<Guid>
-{
-
-}
-
-public interface IRepository<TEntity, TPrimaryKey> : IRepository where TEntity : class, IEntity<TPrimaryKey>
+public interface IBaseEntityRepository<TEntity> : IBaseEntityRepository where TEntity : class, IBaseEntity
 {
     #region Select/Get/Query
 
     IQueryable<TEntity> AsQueryable();
     Task<List<TEntity>> GetAll(CancellationToken cancellationToken = default);
     Task<List<TEntity>> GetAll(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default);
-    Task<TEntity> GetById(TPrimaryKey id, CancellationToken cancellationToken = default);
+    Task<TEntity> GetById(Guid id, CancellationToken cancellationToken = default);
 
     #endregion
 
     #region Insert
-
     Task<TEntity> Insert(TEntity entity, CancellationToken cancellationToken = default);
-
     #endregion
 
     #region Update
@@ -35,7 +28,7 @@ public interface IRepository<TEntity, TPrimaryKey> : IRepository where TEntity :
 
     #region Delete
     Task Delete(TEntity entity, CancellationToken cancellationToken = default);
-    Task Delete(TPrimaryKey id, CancellationToken cancellationToken = default);
+    Task Delete(Guid id, CancellationToken cancellationToken = default);
     Task Delete(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default);
     #endregion
 
@@ -44,4 +37,3 @@ public interface IRepository<TEntity, TPrimaryKey> : IRepository where TEntity :
     Task<long> Count(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default);
     #endregion
 }
-

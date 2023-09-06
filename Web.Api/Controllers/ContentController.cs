@@ -6,11 +6,11 @@ namespace Web.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]/[action]")]
-public class ContentDefinitionController : ControllerBase
+public class ContentController : ControllerBase
 {
     private readonly IService<ContentDefinition> service;
 
-    public ContentDefinitionController(IService<ContentDefinition> service)
+    public ContentController(IContentService<BaseContent> service)
     {
         this.service = service;
     }
@@ -27,4 +27,3 @@ public class ContentDefinitionController : ControllerBase
         return await service.GetAll(cancellationToken);
     }
 }
-

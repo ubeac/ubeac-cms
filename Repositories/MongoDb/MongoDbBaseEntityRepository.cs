@@ -4,20 +4,8 @@ using System.Linq.Expressions;
 
 namespace Repositories.MongoDb;
 
-public class MongoDbRepositoryBase<TEntity> : MongoDbRepositoryBase<TEntity, Guid>, IRepository<TEntity> where TEntity : class, IEntity<Guid>
-{
-    public MongoDbRepositoryBase(IMongoDbProvider databaseProvider) : base(databaseProvider)
-    {
-    }
 
-    public override Task<TEntity> Insert(TEntity entity, CancellationToken cancellationToken = default)
-    {
-        entity.Id = Guid.NewGuid();
-        return base.Insert(entity, cancellationToken);
-    }
-}
-
-public class MongoDbRepositoryBase<TEntity, TPrimaryKey> : IRepository<TEntity, TPrimaryKey> where TEntity : class, IEntity<TPrimaryKey>
+public class MongoDbBaseEntityRepository<TEntity> : IBaseEntityRepository<TEntity> where TEntity : class, IBaseEntity
 {
 
     private readonly IMongoDbProvider _databaseProvider;
@@ -27,27 +15,9 @@ public class MongoDbRepositoryBase<TEntity, TPrimaryKey> : IRepository<TEntity, 
     protected virtual IMongoCollection<TEntity> Collection => _databaseProvider.Database.GetCollection<TEntity>(CollectionName);
 
 
-    public MongoDbRepositoryBase(IMongoDbProvider databaseProvider)
+    public MongoDbBaseEntityRepository(IMongoDbProvider databaseProvider)
     {
         _databaseProvider = databaseProvider;
-    }
-
-    protected virtual Expression<Func<TEntity, bool>> CreateEqualityExpressionForId(TPrimaryKey id)
-    {
-        var lambdaParam = Expression.Parameter(typeof(TEntity));
-
-        var leftExpression = Expression.PropertyOrField(lambdaParam, "Id");
-
-        if (id == null) throw new ArgumentException($"Id is null.");
-
-        var idValue = Convert.ChangeType(id, typeof(TPrimaryKey)) ?? throw new ArgumentException($"Unable to convert type {id.GetType()} to {typeof(TPrimaryKey)}");
-
-        Expression<Func<object>> closure = () => idValue;
-        var rightExpression = Expression.Convert(closure.Body, leftExpression.Type);
-
-        var lambdaBody = Expression.Equal(leftExpression, rightExpression);
-
-        return Expression.Lambda<Func<TEntity, bool>>(lambdaBody, lambdaParam);
     }
 
     public IQueryable<TEntity> AsQueryable()
@@ -55,7 +25,7 @@ public class MongoDbRepositoryBase<TEntity, TPrimaryKey> : IRepository<TEntity, 
         return Collection.AsQueryable();
     }
 
-    public async Task<List<TEntity>> GetAll(CancellationToken cancellationToken = default)
+    public virtual async Task<List<TEntity>> GetAll(CancellationToken cancellationToken = default)
     {
         var filter = Builders<TEntity>.Filter.Empty;
         var result = await Collection.FindAsync(filter, cancellationToken: cancellationToken);
@@ -68,7 +38,7 @@ public class MongoDbRepositoryBase<TEntity, TPrimaryKey> : IRepository<TEntity, 
         return await result.ToListAsync(cancellationToken: cancellationToken);
     }
 
-    public virtual async Task<TEntity> GetById(TPrimaryKey id, CancellationToken cancellationToken = default)
+    public virtual async Task<TEntity> GetById(Guid id, CancellationToken cancellationToken = default)
     {
         var filter = Builders<TEntity>.Filter.Eq(x => x.Id, id);
 
@@ -79,6 +49,7 @@ public class MongoDbRepositoryBase<TEntity, TPrimaryKey> : IRepository<TEntity, 
 
     public virtual async Task<TEntity> Insert(TEntity entity, CancellationToken cancellationToken = default)
     {
+        entity.Id = Guid.NewGuid();
         await Collection.InsertOneAsync(entity, cancellationToken: cancellationToken);
         return entity;
     }
@@ -102,7 +73,7 @@ public class MongoDbRepositoryBase<TEntity, TPrimaryKey> : IRepository<TEntity, 
         await Delete(entity.Id, cancellationToken);
     }
 
-    public virtual async Task Delete(TPrimaryKey id, CancellationToken cancellationToken = default)
+    public virtual async Task Delete(Guid id, CancellationToken cancellationToken = default)
     {
         var filter = Builders<TEntity>.Filter.Eq(x => x.Id, id);
         await Collection.DeleteOneAsync(filter, cancellationToken);
