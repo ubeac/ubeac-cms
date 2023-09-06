@@ -28,12 +28,7 @@ public class BaseContentController<TEntity> where TEntity : class, IBaseContent
     [HttpGet]
     public async Task<List<TEntity>> GetAll([FromRoute] string contentType, CancellationToken cancellationToken = default)
     {
-        var contentTypeDefinitions = await _contentTypeRepository.GetAll(x => x.Name.ToLower() == contentType.ToLower(), cancellationToken).ConfigureAwait(false);
-
-        if (contentTypeDefinitions == null) throw new ArgumentException($"Content type {contentType} is not defined.");
-        if (contentTypeDefinitions.Count > 1) throw new ArgumentException($"Content type {contentType} is defined multiple times.");
-
-        return await Service.GetAll(contentTypeDefinition., cancellationToken);
+        return await Service.GetAll(contentType, cancellationToken);
     }
 
     [HttpGet]
