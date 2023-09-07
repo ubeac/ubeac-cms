@@ -1,4 +1,3 @@
-﻿using Entities;
 using Services;
 
 namespace Microsoft.Extensions.DependencyInjection;
@@ -10,7 +9,7 @@ public static class ServiceExtensions
 
         services.AddScoped(typeof(IBaseEntityService<>), typeof(BaseEntityService<>));
         services.AddScoped(typeof(IBaseContentService<>), typeof(BaseContentService<>));
-        services.AddScoped<ISiteService, SiteService>();     
+        services.AddScoped<ISiteService, SiteService>();
 
         return services;
     }
