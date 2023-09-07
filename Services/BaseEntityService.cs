@@ -44,6 +44,7 @@ public class BaseEntityService<TEntity> : IBaseEntityService<TEntity> where TEnt
     public Task<TEntity> Insert(TEntity entity, CancellationToken cancellationToken = default)
     {
         entity.CreateDate = DateTime.Now;
+        entity.LastUpdateDate = DateTime.Now;
         return Repository.Insert(entity, cancellationToken);
     }
 

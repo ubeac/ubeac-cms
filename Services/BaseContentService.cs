@@ -6,6 +6,7 @@ namespace Services;
 public interface IBaseContentService<TEntity> : IBaseEntityService<TEntity> where TEntity : class, IBaseContent
 {
     Task<List<TEntity>> GetAll(string typeName, CancellationToken cancellationToken = default);
+    Task<TEntity> Insert(string typeName, TEntity entity, CancellationToken cancellationToken = default);
 }
 
 public class BaseContentService<TEntity> : BaseEntityService<TEntity>, IBaseContentService<TEntity> where TEntity : class, IBaseContent
@@ -25,5 +26,15 @@ public class BaseContentService<TEntity> : BaseEntityService<TEntity>, IBaseCont
     {
         var contentTypeDefinition = await _contentTypeDefinitionRepository.GetByName(typeName, cancellationToken).ConfigureAwait(false);
         return await _baseContentRepository.GetAll(_context.SiteId, contentTypeDefinition.Id, cancellationToken);
+    }
+
+    public async Task<TEntity> Insert(string typeName, TEntity entity, CancellationToken cancellationToken = default)
+    {
+        var contentTypeDefinition = await _contentTypeDefinitionRepository.GetByName(typeName, cancellationToken).ConfigureAwait(false);
+
+        entity.SiteId = _context.SiteId;
+        entity.TypeId = contentTypeDefinition.Id;
+  
+        return await Insert(entity, cancellationToken);
     }
 }

@@ -39,11 +39,11 @@ public class BaseContentController<TEntity> : ControllerBase where TEntity : cla
     [HttpPost]
     public Task<TEntity> Insert([FromRoute] string contentType, [FromBody] TEntity entity, CancellationToken cancellationToken = default)
     {
-        return Service.Insert(entity, cancellationToken);
+        return Service.Insert(contentType, entity, cancellationToken);
     }
 
     [HttpPost]
-    public async Task<TEntity> Update([FromRoute] string contentType, [FromBody] TEntity entity, CancellationToken cancellationToken = default)
+    public async Task<TEntity> Update([FromBody] TEntity entity, CancellationToken cancellationToken = default)
     {
         return await Service.Update(entity, cancellationToken);
     }
