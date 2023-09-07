@@ -9,6 +9,16 @@ public class MongoDbSiteRepository : MongoDbBaseEntityRepository<Site>, ISiteRep
     {
     }
 
+    public override async Task<Site> Insert(Site site, CancellationToken cancellationToken = default)
+    {
+        if (site.Id ==  Guid.Empty) 
+            return await base.Insert(site, cancellationToken);
+
+        await Collection.InsertOneAsync(site, cancellationToken: cancellationToken);
+
+        return site;
+    }
+
     public async Task<Site> GetByDomain(string domainName, CancellationToken cancellationToken = default)
     {
         var filter = Builders<Site>.Filter.Eq(x => x.Domain, domainName.ToLower());

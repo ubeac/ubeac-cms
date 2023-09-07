@@ -12,7 +12,7 @@ public class SiteService : BaseEntityService<Site>, ISiteService
 {
 
     private readonly ISiteRepository _siteRepository;
-    public SiteService(ISiteRepository repository) : base(repository)
+    public SiteService(ISiteRepository repository, CmsContext cmsContext) : base(repository, cmsContext)
     {
         _siteRepository = repository;
     }

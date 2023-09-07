@@ -1,11 +1,11 @@
-﻿using Entities;
-using Services;
+﻿//using Entities;
+//using Services;
 
-namespace Controllers;
+//namespace Controllers;
 
-public class ContentDefinitionTypeController : BaseEntityController<ContentTypeDefinition>
-{
-    public ContentDefinitionTypeController(IBaseEntityService<ContentTypeDefinition> service) : base(service)
-    {
-    }
-}
+//public class ContentDefinitionTypeController : BaseEntityController<IContentType>
+//{
+//    public ContentDefinitionTypeController(IBaseEntityService<IContentType> service) : base(service)
+//    {
+//    }
+//}

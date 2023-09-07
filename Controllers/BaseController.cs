@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿//using Microsoft.AspNetCore.Mvc;
 
-namespace Controllers;
+//namespace Controllers;
 
-[ApiController]
-[Route("api/[controller]/[action]")]
-[Produces("application/json")]
-public class BaseController
-{
+//[ApiController]
+//[Route("api/[controller]/[action]")]
+//[Produces("application/json")]
+//public class BaseController
+//{
 
-}
+//}
 
