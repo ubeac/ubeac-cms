@@ -11,7 +11,7 @@ public class MongoDbSiteRepository : MongoDbBaseEntityRepository<Site>, ISiteRep
 
     public async Task<Site> GetByDomain(string domainName, CancellationToken cancellationToken = default)
     {
-        var filter = Builders<Site>.Filter.Eq(x => x.Domain.ToLower(), domainName.ToLower());
+        var filter = Builders<Site>.Filter.Eq(x => x.Domain, domainName.ToLower());
 
         var result = await Collection.FindAsync(filter, cancellationToken: cancellationToken);
 

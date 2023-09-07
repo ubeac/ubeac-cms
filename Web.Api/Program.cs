@@ -1,4 +1,5 @@
 using Controllers;
+using Entities;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,15 +10,18 @@ services.AddMongoDbRepositories(builder.Configuration);
 
 services.AddServices();
 
-services.AddControllers();
+services.AddScoped(provider => new CmsContext());
+
+services.AddControllers().AddCmsControllers();
 
 services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
 });
 
-
 var app = builder.Build();
+
+app.Services.SeedDefaultData();
 
 app.UseHttpsRedirection();
 

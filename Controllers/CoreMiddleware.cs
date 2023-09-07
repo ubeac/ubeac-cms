@@ -18,12 +18,10 @@ public class CoreMiddleware
 
         var domainName = httpContext.Request.Host.Value;
         var site = await siteService.GetByDomain(domainName);
-        if (site == null)
+        if (site != null)
         {
-            // todo: raise exception
+            cmsContext.SiteId = site.Id;
         }
-
-        cmsContext.SiteId = site.Id;
 
         await _next(httpContext);
     }
