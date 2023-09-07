@@ -11,10 +11,6 @@ public static class ServiceExtensions
         services.AddScoped(typeof(IBaseEntityService<>), typeof(BaseEntityService<>));
         services.AddScoped(typeof(IBaseContentService<>), typeof(BaseContentService<>));
         services.AddScoped<ISiteService, SiteService>();     
-        services.AddScoped(serviceProvider =>
-        {
-            return new CmsContext();
-        });
 
         return services;
     }
