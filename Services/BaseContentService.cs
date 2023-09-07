@@ -34,9 +34,7 @@ public class BaseContentService<TEntity> : BaseEntityService<TEntity>, IBaseCont
 
         entity.SiteId = _context.SiteId;
         entity.TypeId = contentTypeDefinition.Id;
-        entity.CreateDate = DateTime.Now;
-        entity.LastUpdateDate = DateTime.Now;
-        
-        return await _baseContentRepository.Insert(entity, cancellationToken);
+  
+        return await Insert(entity, cancellationToken);
     }
 }
