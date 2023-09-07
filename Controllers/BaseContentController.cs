@@ -10,13 +10,11 @@ namespace Controllers;
 public class BaseContentController<TEntity> where TEntity : class, IBaseContent
 {
 
-    private readonly IBaseEntityRepository<ContentTypeDefinition> _contentTypeRepository;
     protected IBaseContentService<TEntity> Service { get; }
 
     public BaseContentController(IBaseContentService<TEntity> service, IBaseEntityRepository<ContentTypeDefinition> contentTypeRepository)
     {
         Service = service;
-        _contentTypeRepository = contentTypeRepository;
     }
 
     [HttpPost]
