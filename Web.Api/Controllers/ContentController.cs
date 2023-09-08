@@ -17,9 +17,9 @@ public class ContentController : ControllerBase
     }
 
     [HttpPost]
-    public Task Delete([FromRoute] string type, [FromBody] Guid id, CancellationToken cancellationToken = default)
+    public Task Delete([FromBody] Guid id, CancellationToken cancellationToken = default)
     {
-        return Service.Delete(type, id, cancellationToken);
+        return Service.Delete(id, cancellationToken);
     }
 
     [HttpGet]
@@ -29,9 +29,9 @@ public class ContentController : ControllerBase
     }
 
     [HttpGet]
-    public Task<Content?> GetById([FromRoute] string type, [FromQuery] Guid id, CancellationToken cancellationToken = default)
+    public Task<Content?> GetById([FromQuery] Guid id, CancellationToken cancellationToken = default)
     {
-        return Service.GetById(type, id, cancellationToken);
+        return Service.GetById(id, cancellationToken);
     }
 
     [HttpPost]

@@ -4,7 +4,6 @@ using Microsoft.Extensions.Configuration;
 using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson;
-using Entities;
 using MongoDB.Driver;
 using Microsoft.Extensions.Options;
 
@@ -15,7 +14,10 @@ public static class MongoDbServiceExtensions
     public static IServiceCollection AddMongoDbRepositories(this IServiceCollection services, IConfiguration configuration)
     {
         // For Guid serialization 
-        BsonSerializer.RegisterSerializer(new GuidSerializer(GuidRepresentation.Standard));
+        BsonSerializer.RegisterSerializer(typeof(Guid), new GuidSerializer(GuidRepresentation.Standard));
+
+        // This is important: if we remove this line, filtering by Guid properties won't work
+        BsonDefaults.GuidRepresentationMode = GuidRepresentationMode.V3;
 
         services.Configure<MongoDbConfiguration>(configuration.GetSection("MongoDbConfiguration") ?? throw new InvalidOperationException("MongoDbConfiguration section not found."));
 

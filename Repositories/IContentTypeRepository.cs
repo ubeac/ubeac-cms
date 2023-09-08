@@ -4,5 +4,5 @@ namespace Repositories;
 
 public interface IContentTypeRepository : IBaseEntityRepository<ContentType>
 {
-    Task<ContentType> GetByName(string name, CancellationToken cancellationToken = default);
+    Task<ContentType> GetByName(Guid siteId, string name, CancellationToken cancellationToken = default);
 }

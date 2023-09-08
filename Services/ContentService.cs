@@ -7,9 +7,9 @@ public interface IContentService
 {
     Task<List<Content>> GetAll(string type, CancellationToken cancellationToken = default);
     Task<Content> Insert(string type, Content entity, CancellationToken cancellationToken = default);
-    Task<Content?> GetById(string type, Guid id, CancellationToken cancellationToken = default);
+    Task<Content?> GetById(Guid id, CancellationToken cancellationToken = default);
     Task<Content> Update(string type, Content entity, CancellationToken cancellationToken = default);
-    Task Delete(string type, Guid id, CancellationToken cancellationToken = default);
+    Task Delete(Guid id, CancellationToken cancellationToken = default);
 }
 
 public class ContentService : IContentService
@@ -25,24 +25,26 @@ public class ContentService : IContentService
         _contentRepository = repository;
     }
 
-    public Task Delete(string type, Guid id, CancellationToken cancellationToken = default)
+    public Task Delete(Guid id, CancellationToken cancellationToken = default)
     {
-        return _contentRepository.Delete(type, id, cancellationToken);
+        return _contentRepository.Delete(id, cancellationToken);
     }
 
-    public Task<List<Content>> GetAll(string type, CancellationToken cancellationToken = default)
+    public async Task<List<Content>> GetAll(string type, CancellationToken cancellationToken = default)
     {
-        return _contentRepository.GetAll(type, _context.SiteId, cancellationToken);
+        var contentType = await _contentTypeRepository.GetByName(_context.SiteId, type, cancellationToken);
+
+        return await _contentRepository.GetAll(contentType.Id, _context.SiteId, cancellationToken);
     }
 
-    public Task<Content?> GetById(string type, Guid id, CancellationToken cancellationToken = default)
+    public Task<Content?> GetById(Guid id, CancellationToken cancellationToken = default)
     {
-        return _contentRepository.GetById(type, id, cancellationToken);
+        return _contentRepository.GetById(id, cancellationToken);
     }
 
     public async Task<Content> Insert(string type, Content entity, CancellationToken cancellationToken = default)
     {
-        var typeDefinition = await _contentTypeRepository.GetByName(type, cancellationToken);
+        var typeDefinition = await _contentTypeRepository.GetByName(_context.SiteId, type, cancellationToken);
 
         entity.CreateBy = _context.Username;
         entity.CreateDate = DateTime.Now;
@@ -51,12 +53,12 @@ public class ContentService : IContentService
         entity.SiteId = _context.SiteId;
         entity.TypeId = typeDefinition.Id;
 
-        return await _contentRepository.Insert(type, entity, cancellationToken);
+        return await _contentRepository.Insert(entity, cancellationToken);
     }
 
     public async Task<Content> Update(string type, Content entity, CancellationToken cancellationToken = default)
     {
-        var typeDefinition = await _contentTypeRepository.GetByName(type, cancellationToken);
+        var typeDefinition = await _contentTypeRepository.GetByName(_context.SiteId, type, cancellationToken);
 
         // todo: think about this
         //entity.CreateBy = _context.Username;
@@ -66,6 +68,6 @@ public class ContentService : IContentService
         entity.SiteId = _context.SiteId;
         entity.TypeId = typeDefinition.Id;
 
-        return await _contentRepository.Update(type, entity, cancellationToken);
+        return await _contentRepository.Update(entity, cancellationToken);
     }
 }
