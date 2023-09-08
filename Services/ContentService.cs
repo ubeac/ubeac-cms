@@ -25,38 +25,44 @@ public class ContentService : IContentService
         _contentRepository = repository;
     }
 
-    public Task Delete(string type, Guid id, CancellationToken cancellationToken = default)
+    public async Task Delete(string type, Guid id, CancellationToken cancellationToken = default)
     {
-        return _contentRepository.Delete(type, id, cancellationToken);
+
+        var contentType = await _contentTypeRepository.GetByName(type, cancellationToken);
+
+        await _contentRepository.Delete(contentType.Id, _context.SiteId, id, cancellationToken);
+        return;
     }
 
-    public Task<List<Content>> GetAll(string type, CancellationToken cancellationToken = default)
+    public async Task<List<Content>> GetAll(string type, CancellationToken cancellationToken = default)
     {
-        return _contentRepository.GetAll(type, _context.SiteId, cancellationToken);
+        var contentType = await _contentTypeRepository.GetByName(type, cancellationToken);
+        return await _contentRepository.GetAll(contentType.Id, _context.SiteId, cancellationToken);
     }
 
-    public Task<Content?> GetById(string type, Guid id, CancellationToken cancellationToken = default)
+    public async Task<Content?> GetById(string type, Guid id, CancellationToken cancellationToken = default)
     {
-        return _contentRepository.GetById(type, id, cancellationToken);
+        var contentType = _contentTypeRepository.GetByName(type, cancellationToken).GetAwaiter().GetResult();
+        return await _contentRepository.GetById(contentType.Id, _context.SiteId, id, cancellationToken);
     }
 
     public async Task<Content> Insert(string type, Content entity, CancellationToken cancellationToken = default)
     {
-        var typeDefinition = await _contentTypeRepository.GetByName(type, cancellationToken);
+        var contentType = await _contentTypeRepository.GetByName(type, cancellationToken);
 
         entity.CreateBy = _context.Username;
         entity.CreateDate = DateTime.Now;
         entity.LastUpdateDate = default;
         entity.LastUpdateBy = default;
         entity.SiteId = _context.SiteId;
-        entity.TypeId = typeDefinition.Id;
+        entity.TypeId = contentType.Id;
 
-        return await _contentRepository.Insert(type, entity, cancellationToken);
+        return await _contentRepository.Insert(contentType.Id, _context.SiteId, entity, cancellationToken);
     }
 
     public async Task<Content> Update(string type, Content entity, CancellationToken cancellationToken = default)
     {
-        var typeDefinition = await _contentTypeRepository.GetByName(type, cancellationToken);
+        var contentType = await _contentTypeRepository.GetByName(type, cancellationToken);
 
         // todo: think about this
         //entity.CreateBy = _context.Username;
@@ -64,8 +70,8 @@ public class ContentService : IContentService
         entity.LastUpdateDate = DateTime.Now;
         entity.LastUpdateBy = _context.Username;
         entity.SiteId = _context.SiteId;
-        entity.TypeId = typeDefinition.Id;
+        entity.TypeId = contentType.Id;
 
-        return await _contentRepository.Update(type, entity, cancellationToken);
+        return await _contentRepository.Update(contentType.Id, _context.SiteId, entity, cancellationToken);
     }
 }

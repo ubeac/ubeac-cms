@@ -3,58 +3,62 @@ using MongoDB.Driver;
 
 namespace Repositories.MongoDb;
 
-public class MongoDbContentRepository : IContentRepository
+public class MongoDbContentRepository : MongoDbBaseEntityRepository<Content>, IContentRepository
 {
-    private readonly IMongoDbProvider _databaseProvider;
-    private readonly CmsContext _context;
-
-    public MongoDbContentRepository(IMongoDbProvider databaseProvider, CmsContext context)
+    public MongoDbContentRepository(IMongoDbProvider databaseProvider) : base(databaseProvider)
     {
-        _databaseProvider = databaseProvider;
-        _context = context;
     }
 
-    protected virtual IMongoCollection<Content> GetCollection(string type) => _databaseProvider.Database.GetCollection<Content>(type);
-
-    public async Task Delete(string type, Guid id, CancellationToken cancellationToken = default)
+    private FilterDefinition<Content> GetDefaultFilter(Guid typeId, Guid siteId)
     {
-        var filter = Builders<Content>.Filter.Eq(x => x.Id, id);
-        await GetCollection(type).DeleteOneAsync(filter, cancellationToken);
+        var filter = Builders<Content>.Filter.Eq(x => x.SiteId, siteId);
+        filter &= Builders<Content>.Filter.Eq(x => x.TypeId, typeId);
+
+        return filter;
     }
 
-    public async Task<List<Content>> GetAll(string type, Guid siteId, CancellationToken cancellationToken = default)
+    public async Task Delete(Guid typeId, Guid siteId, Guid id, CancellationToken cancellationToken = default)
     {
-        var filter = Builders<Content>.Filter.Empty;
-        var result = await GetCollection(type).FindAsync(filter, cancellationToken: cancellationToken);
+        var filter = Builders<Content>.Filter.Eq(x => x.Id, id) & GetDefaultFilter(typeId, siteId);
+
+        await Collection.DeleteOneAsync(filter, cancellationToken);
+    }
+
+    public async Task<List<Content>> GetAll(Guid typeId, Guid siteId, CancellationToken cancellationToken = default)
+    {
+        var filter = GetDefaultFilter(typeId, siteId);
+
+        var result = await Collection.FindAsync(filter, cancellationToken: cancellationToken);
         return await result.ToListAsync(cancellationToken: cancellationToken);
     }
 
-    public async Task<Content?> GetById(string type, Guid id, CancellationToken cancellationToken = default)
+    public async Task<Content?> GetById(Guid typeId, Guid siteId, Guid id, CancellationToken cancellationToken = default)
     {
-        var filter = Builders<Content>.Filter.Eq(x => x.Id, id);
+        var filter = Builders<Content>.Filter.Eq(x => x.Id, id) & GetDefaultFilter(typeId, siteId);
 
-        var result = await GetCollection(type).FindAsync(filter, cancellationToken: cancellationToken);
+        var result = await Collection.FindAsync(filter, cancellationToken: cancellationToken);
 
         return result.SingleOrDefault(cancellationToken: cancellationToken);
     }
 
-    public async Task<Content> Insert(string type, Content entity, CancellationToken cancellationToken = default)
+    public async Task<Content> Insert(Guid typeId, Guid siteId, Content entity, CancellationToken cancellationToken = default)
     {
         entity.Id = Guid.NewGuid();
-        await GetCollection(type).InsertOneAsync(entity, cancellationToken: cancellationToken);
+    
+        await Collection.InsertOneAsync(entity, cancellationToken: cancellationToken);
         return entity;
     }
 
-    public async Task<Content> Update(string type, Content entity, CancellationToken cancellationToken = default)
+    public async Task<Content> Update(Guid typeId, Guid siteId, Content entity, CancellationToken cancellationToken = default)
     {
-        var filter = Builders<Content>.Filter.Eq(x => x.Id, entity.Id);
+        var filter = Builders<Content>.Filter.Eq(x => x.Id, entity.Id) & GetDefaultFilter(typeId, siteId);
 
         var options = new ReplaceOptions
         {
             IsUpsert = false
         };
 
-        var result = await GetCollection(type).ReplaceOneAsync(filter, entity, options, cancellationToken);
+        var result = await Collection.ReplaceOneAsync(filter, entity, options, cancellationToken);
 
         return entity;
     }

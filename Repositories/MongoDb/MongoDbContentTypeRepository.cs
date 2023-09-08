@@ -5,14 +5,16 @@ namespace Repositories.MongoDb;
 
 public class MongoDbContentTypeRepository : MongoDbBaseEntityRepository<ContentType>, IContentTypeRepository
 {
-    public MongoDbContentTypeRepository(IMongoDbProvider databaseProvider) : base(databaseProvider)
+    private readonly CmsContext _context;
+    public MongoDbContentTypeRepository(IMongoDbProvider databaseProvider, CmsContext cmsContext) : base(databaseProvider)
     {
-
+        _context = cmsContext;
     }
 
     public async Task<ContentType> GetByName(string name, CancellationToken cancellationToken = default)
     {
-        var filter = Builders<ContentType>.Filter.Eq(x => x.Name, name);
+        var filter = Builders<ContentType>.Filter.Eq(x => x.Name, name.ToLower());
+        filter &= Builders<ContentType>.Filter.Eq(x => x.SiteId, _context.SiteId);
 
         var result = await Collection.FindAsync(filter, cancellationToken: cancellationToken);
 

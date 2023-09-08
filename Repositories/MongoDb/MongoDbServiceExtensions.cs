@@ -24,13 +24,7 @@ public static class MongoDbServiceExtensions
         services.AddScoped<IContentTypeRepository, MongoDbContentTypeRepository>();
         services.AddScoped<ISiteRepository, MongoDbSiteRepository>();
 
-        services.AddScoped<IMongoDbProvider, MongoDbProvider>();
-
-        services.AddSingleton(provider =>
-        {
-            var options = provider.GetRequiredService<IOptions<MongoDbConfiguration>>();
-            return new MongoClient(options.Value.ConnectionString);
-        });
+        services.AddSingleton<IMongoDbProvider, MongoDbProvider>();
 
         return services;
     }

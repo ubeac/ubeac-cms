@@ -7,14 +7,12 @@ namespace Repositories.MongoDb;
 public class MongoDbProvider : IMongoDbProvider
 {
     private readonly IMongoDatabase _database;
-    private readonly CmsContext _cmsContext;
-    private readonly MongoClient _mongoClient;
 
-    public MongoDbProvider(MongoClient mongoClient, CmsContext cmsContext, IOptions<MongoDbConfiguration> options)
+    public MongoDbProvider(IOptions<MongoDbConfiguration> options)
     {
-        _cmsContext = cmsContext;
-        _mongoClient = mongoClient;
-        _database = _mongoClient.GetDatabase($"{options.Value.DatabasePrefix}{cmsContext.SiteId}");
+        var mongoClient = new MongoClient(options.Value.ConnectionString);
+
+        _database = mongoClient.GetDatabase(options.Value.DatabaseName);
     }
 
     public IMongoDatabase Database => _database;

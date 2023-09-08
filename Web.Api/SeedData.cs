@@ -7,11 +7,6 @@ public static class SeedData
     {
         var scope = provider.CreateScope();
 
-
-        var firstSiteId = Guid.NewGuid();
-        var cmsContext = scope.ServiceProvider.GetRequiredService<CmsContext>();
-        cmsContext.SiteId = firstSiteId;
-
         var siteService = scope.ServiceProvider.GetRequiredService<ISiteService>();
         var contentService = scope.ServiceProvider.GetRequiredService<IContentService>();
         var contentTypeService = scope.ServiceProvider.GetRequiredService<IContentTypeService>();
@@ -22,12 +17,18 @@ public static class SeedData
 
             var site = new Site
             {
-                Id = firstSiteId,
                 Name = "Sample Website",
                 Domain = "localhost:7101"
             };
 
             siteService.Insert(site).GetAwaiter().GetResult();
+
+            var site2 = new Site
+            {
+                Name = "Sample 2 Website",
+                Domain = "localhost:5296"
+            };
+            siteService.Insert(site2).GetAwaiter().GetResult();
 
             #endregion
 
