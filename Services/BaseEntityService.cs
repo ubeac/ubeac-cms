@@ -20,45 +20,45 @@ public interface IBaseEntityService<TEntity> : IBaseEntityService where TEntity 
 public class BaseEntityService<TEntity> : IBaseEntityService<TEntity> where TEntity : class, IBaseEntity
 {
     protected IBaseEntityRepository<TEntity> Repository { get; }
-    private readonly CmsContext _cmsContext;
+    protected CmsContext Context { get; }
 
     public BaseEntityService(IBaseEntityRepository<TEntity> repository, CmsContext cmsContext)
     {
         Repository = repository;
-        _cmsContext = cmsContext;
+        Context = cmsContext;
     }
 
-    public Task Delete(Guid id, CancellationToken cancellationToken = default)
+    public virtual Task Delete(Guid id, CancellationToken cancellationToken = default)
     {
         return Repository.Delete(id, cancellationToken);
     }
 
-    public Task<List<TEntity>> GetAll(CancellationToken cancellationToken = default)
+    public virtual Task<List<TEntity>> GetAll(CancellationToken cancellationToken = default)
     {
         return Repository.GetAll(cancellationToken);
     }
 
-    public Task<TEntity> GetById(Guid id, CancellationToken cancellationToken = default)
+    public virtual Task<TEntity> GetById(Guid id, CancellationToken cancellationToken = default)
     {
         return Repository.GetById(id, cancellationToken);
     }
 
-    public Task<TEntity> Insert(TEntity entity, CancellationToken cancellationToken = default)
+    public virtual Task<TEntity> Insert(TEntity entity, CancellationToken cancellationToken = default)
     {
         entity.CreateDate = DateTime.Now;
-        entity.CreateBy = _cmsContext.Username;
+        entity.CreateBy = Context.Username;
         entity.LastUpdateDate = default;
         entity.LastUpdateBy = default;
         return Repository.Insert(entity, cancellationToken);
     }
 
-    public Task<TEntity> Update(TEntity entity, CancellationToken cancellationToken = default)
+    public virtual Task<TEntity> Update(TEntity entity, CancellationToken cancellationToken = default)
     {
         // todo: think of this
         //entity.CreateDate = DateTime.Now;
         //entity.CreateBy = _cmsContext.Username;
         entity.LastUpdateDate = DateTime.Now;
-        entity.LastUpdateBy = _cmsContext.Username;
+        entity.LastUpdateBy = Context.Username;
         return Repository.Update(entity, cancellationToken);
     }
 }

@@ -8,9 +8,7 @@ public static class SeedData
         var scope = provider.CreateScope();
 
 
-        var firstSiteId = Guid.NewGuid();
         var cmsContext = scope.ServiceProvider.GetRequiredService<CmsContext>();
-        cmsContext.SiteId = firstSiteId;
 
         var siteService = scope.ServiceProvider.GetRequiredService<ISiteService>();
         var contentService = scope.ServiceProvider.GetRequiredService<IContentService>();
@@ -22,12 +20,13 @@ public static class SeedData
 
             var site = new Site
             {
-                Id = firstSiteId,
                 Name = "Sample Website",
                 Domain = "localhost:7101"
             };
 
             siteService.Insert(site).GetAwaiter().GetResult();
+
+            cmsContext.SiteId = site.Id;
 
             #endregion
 
@@ -36,7 +35,6 @@ public static class SeedData
             var articleContentType = new ContentType
             {
                 Name = "Article",
-                SiteId = site.Id,
                 Fields = new List<Field>
                       {
                           new Field
@@ -58,7 +56,6 @@ public static class SeedData
             var newsContentType = new ContentType
             {
                 Name = "News",
-                SiteId = site.Id,
                 Fields = new List<Field>
                       {
                           new Field
@@ -96,7 +93,6 @@ public static class SeedData
 
             var article1 = new Content
             {
-                SiteId = site.Id,
                 TypeId = articleContentType.Id
             };
             article1.Fields["Title"] = "Article 1";
@@ -104,7 +100,6 @@ public static class SeedData
 
             var article2 = new Content
             {
-                SiteId = site.Id,
                 TypeId = articleContentType.Id
             };
             article2.Fields["Title"] = "Article 2";

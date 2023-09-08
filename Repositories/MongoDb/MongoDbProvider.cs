@@ -1,5 +1,4 @@
-﻿using Entities;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
 namespace Repositories.MongoDb;
@@ -7,14 +6,12 @@ namespace Repositories.MongoDb;
 public class MongoDbProvider : IMongoDbProvider
 {
     private readonly IMongoDatabase _database;
-    private readonly CmsContext _cmsContext;
     private readonly MongoClient _mongoClient;
 
-    public MongoDbProvider(MongoClient mongoClient, CmsContext cmsContext, IOptions<MongoDbConfiguration> options)
+    public MongoDbProvider(MongoClient mongoClient, IOptions<MongoDbConfiguration> options)
     {
-        _cmsContext = cmsContext;
         _mongoClient = mongoClient;
-        _database = _mongoClient.GetDatabase($"{options.Value.DatabasePrefix}{cmsContext.SiteId}");
+        _database = _mongoClient.GetDatabase(options.Value.Database);
     }
 
     public IMongoDatabase Database => _database;

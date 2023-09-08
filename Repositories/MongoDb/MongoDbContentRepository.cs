@@ -6,26 +6,24 @@ namespace Repositories.MongoDb;
 public class MongoDbContentRepository : IContentRepository
 {
     private readonly IMongoDbProvider _databaseProvider;
-    private readonly CmsContext _context;
 
-    public MongoDbContentRepository(IMongoDbProvider databaseProvider, CmsContext context)
+    public MongoDbContentRepository(IMongoDbProvider databaseProvider)
     {
         _databaseProvider = databaseProvider;
-        _context = context;
     }
 
-    protected virtual IMongoCollection<Content> GetCollection(string type) => _databaseProvider.Database.GetCollection<Content>(type);
+    protected virtual IMongoCollection<Content> GetCollection() => _databaseProvider.Database.GetCollection<Content>(typeof(Content).Name);
 
     public async Task Delete(string type, Guid id, CancellationToken cancellationToken = default)
     {
         var filter = Builders<Content>.Filter.Eq(x => x.Id, id);
-        await GetCollection(type).DeleteOneAsync(filter, cancellationToken);
+        await GetCollection().DeleteOneAsync(filter, cancellationToken);
     }
 
     public async Task<List<Content>> GetAll(string type, Guid siteId, CancellationToken cancellationToken = default)
     {
         var filter = Builders<Content>.Filter.Empty;
-        var result = await GetCollection(type).FindAsync(filter, cancellationToken: cancellationToken);
+        var result = await GetCollection().FindAsync(filter, cancellationToken: cancellationToken);
         return await result.ToListAsync(cancellationToken: cancellationToken);
     }
 
@@ -33,7 +31,7 @@ public class MongoDbContentRepository : IContentRepository
     {
         var filter = Builders<Content>.Filter.Eq(x => x.Id, id);
 
-        var result = await GetCollection(type).FindAsync(filter, cancellationToken: cancellationToken);
+        var result = await GetCollection().FindAsync(filter, cancellationToken: cancellationToken);
 
         return result.SingleOrDefault(cancellationToken: cancellationToken);
     }
@@ -41,7 +39,7 @@ public class MongoDbContentRepository : IContentRepository
     public async Task<Content> Insert(string type, Content entity, CancellationToken cancellationToken = default)
     {
         entity.Id = Guid.NewGuid();
-        await GetCollection(type).InsertOneAsync(entity, cancellationToken: cancellationToken);
+        await GetCollection().InsertOneAsync(entity, cancellationToken: cancellationToken);
         return entity;
     }
 
@@ -54,7 +52,7 @@ public class MongoDbContentRepository : IContentRepository
             IsUpsert = false
         };
 
-        var result = await GetCollection(type).ReplaceOneAsync(filter, entity, options, cancellationToken);
+        var result = await GetCollection().ReplaceOneAsync(filter, entity, options, cancellationToken);
 
         return entity;
     }
