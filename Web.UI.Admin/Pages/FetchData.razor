@@ -1,12 +1,43 @@
 ﻿@page "/fetchdata"
+@using Web.UI.Admin.ApiClients;
 @using Web.UI.Admin.Data
 @inject WeatherForecastService ForecastService
+@inject ContentTypeClient Client
 
 <PageTitle>Weather forecast</PageTitle>
 
-<h1>Weather forecast</h1>
+<h1>Content Types</h1>
+@if (contentTypes == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>SiteId</th>
+                <th>CreateBy</th>
+                <th>CreateDate</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var contentType in contentTypes)
+            {
+                <tr>
+                    <td>@contentType.Id</td>
+                    <td>@contentType.Name</td>
+                    <td>@contentType.SiteId</td>
+                    <td>@contentType.CreateBy</td>
+                    <td>@contentType.CreateDate.ToString()</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
 
-<p>This component demonstrates fetching data from a service.</p>
 
 @if (forecasts == null)
 {
@@ -39,9 +70,11 @@ else
 
 @code {
     private WeatherForecast[]? forecasts;
+    private ICollection<ContentType>? contentTypes;
 
     protected override async Task OnInitializedAsync()
     {
         forecasts = await ForecastService.GetForecastAsync(DateOnly.FromDateTime(DateTime.Now));
+        contentTypes = await Client.GetAllAsync();
     }
 }

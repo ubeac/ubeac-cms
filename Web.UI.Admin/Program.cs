@@ -1,5 +1,4 @@
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
+using Web.UI.Admin.ApiClients;
 using Web.UI.Admin.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,7 +6,23 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+
+
+builder.Services.AddHttpClient();
 builder.Services.AddSingleton<WeatherForecastService>();
+
+
+builder.Services.AddSingleton(provider =>
+{
+    var httpClientFactory = provider.GetRequiredService<IHttpClientFactory>();
+    return new ContentTypeClient("https://localhost:7101", httpClientFactory.CreateClient());
+});
+
+builder.Services.AddSingleton(provider =>
+{
+    var httpClientFactory = provider.GetRequiredService<IHttpClientFactory>();
+    return new ContentClient("https://localhost:7101", httpClientFactory.CreateClient());
+});
 
 var app = builder.Build();
 
