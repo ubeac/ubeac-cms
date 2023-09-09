@@ -6,6 +6,7 @@ using MongoDB.Bson.Serialization;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using Microsoft.Extensions.Options;
+using Entities;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
@@ -25,6 +26,11 @@ public static class MongoDbServiceExtensions
         services.AddScoped<IContentRepository, MongoDbContentRepository>();
         services.AddScoped<IContentTypeRepository, MongoDbContentTypeRepository>();
         services.AddScoped<ISiteRepository, MongoDbSiteRepository>();
+
+        // Identity
+        services.AddScoped<IRoleRepository<Role>, MongoDbRoleRepository<Role>>();
+        services.AddScoped<IUserRepository<User>, MongoDbUserRepository<User>>();
+        services.AddScoped<IUserTokenRepository<UserToken>, MongoDbUserTokenRepository<UserToken>>();
 
         services.AddScoped<IMongoDbProvider, MongoDbProvider>();
 

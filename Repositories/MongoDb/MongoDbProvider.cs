@@ -3,6 +3,11 @@ using MongoDB.Driver;
 
 namespace Repositories.MongoDb;
 
+public interface IMongoDbProvider
+{
+    IMongoDatabase Database { get; }
+}
+
 public class MongoDbProvider : IMongoDbProvider
 {
     private readonly IMongoDatabase _database;
