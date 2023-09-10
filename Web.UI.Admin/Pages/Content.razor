@@ -1,0 +1,188 @@
+@page "/Content/{name}";
+@using ApiClients;
+
+
+<div class="py-3 mb-4 d-flex justify-content-between">
+    <h4>@Name</h4>
+
+
+    <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#insertModal">
+        <span>
+            <i class="ti ti-plus me-0 me-sm-1 ti-xs"></i>
+            <span class="d-none d-sm-inline-block">Add New @Name</span>
+        </span>
+    </button>
+</div>
+
+@if (contentType == null)
+{
+    <h1>Loading...</h1>
+}
+else
+{
+    <div class="card">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover card-table">
+                <thead>
+                    <tr>
+                        @foreach (var field in contentType.Fields) 
+                        {
+                            <td>@field.Label</td>
+                        }
+                        <th style="width: 0">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in content)
+                    {
+
+                        <tr>
+                            @foreach (var field in contentType.Fields) {
+                                <td>@item.Fields[field.Name]</td>
+                            }
+                            <td>
+                                <div class="d-flex gap-3">
+
+                                <a class="btn btn-icon btn-primary" href="/Content/@(contentType.Name)"><i class="ti ti-eye"></i></a>
+                                <a class="btn btn-icon btn-secondary" href="/ContentTypes/@(contentType.Id)"><i class="ti ti-pencil"></i></a>
+                                <a class="btn btn-icon btn-danger" href="javascript:void(0);"><i class="ti ti-trash"></i></a>
+                                </div>
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+<!-- Modal -->
+<div class="modal fade" id="insertModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel1">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          @foreach(var field in contentType.Fields) {
+            @if (field != null) {
+
+            <div class="col-12 mb-3">
+                <label for="@field.Name" class="form-label">@field.Label</label>
+                @if (field.Type == "text") {
+                    <input @bind="newFields[field.Name]" type="text" id="@field.Name" class="form-control" placeholder="Enter @field.Label" />
+                } else if(field.Type == "texthtml") {
+                    <textarea @bind="newFields[field.Name]" type="text" id="@field.Name" class="form-control" placeholder="Enter @field.Label"></textarea>
+                } else if(field.Type == "boolean") {
+                    <br/>
+                        <label class="switch">
+                        <input @bind="newFields[field.Name]" type="checkbox" class="switch-input" />
+                        <span class="switch-toggle-slider">
+                            <span class="switch-on"></span>
+                            <span class="switch-off"></span>
+                        </span>
+                        </label>
+                }
+            </div>
+            }
+
+          }
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" @onclick="Insert">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+}
+
+
+
+@code {
+    [Parameter]
+    public string? Name { get; set; }
+
+    private Dictionary<string, object> newFields {get; set;} = new Dictionary<string, object>();
+    public ICollection<Entities.Content> content {get; set;} = new List<Entities.Content>();
+
+    public ContentType? contentType;
+
+    private void Insert() {
+        var newContent = new Entities.Content {
+            CreateBy = "Hadi",
+            SiteId = Guid.NewGuid(),
+            Fields = newFields,
+            CreateDate = DateTime.Now,
+            LastUpdateBy = default,
+            LastUpdateDate = default,
+            Id = Guid.NewGuid(),
+            TypeId = Guid.Empty
+        };
+
+        content.Add(newContent);
+        if(contentType != null) {
+            foreach(var field in contentType.Fields) {
+                newFields.Add(field.Name, field.DefaultValue);
+            }
+        }
+
+    } 
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        var contentItem = new Entities.Content 
+        {
+            SiteId = Guid.Empty,
+            CreateBy = "Hadi",
+            CreateDate = DateTime.Now,
+            LastUpdateBy = default,
+            LastUpdateDate = default,
+            Id =Guid.NewGuid(),
+            TypeId = Guid.Empty
+        };
+
+        contentItem.Fields["title"] = "Title";
+        contentItem.Fields["description"] = "this is description";
+        contentItem.Fields["archived"] = false;
+
+        content = new List<Entities.Content> {
+            contentItem,
+            contentItem    
+        };
+
+        contentType = new ContentType {
+            Name= Name,
+            Fields = new List<Field> {
+new() {
+Name = "title",
+DefaultValue = "No-Title",
+Label = "Title",
+Type = "text"
+},
+new() {
+Name = "description",
+DefaultValue = "",
+Label = "Description",
+Type = "texthtml"
+},
+new() {
+Name = "archived",
+DefaultValue = "false",
+Label = "Archived",
+Type = "boolean"
+}
+            }
+        };
+        @* contentType = ContentTypeClient.GetByNameAsync() *@
+        foreach(var field in contentType.Fields) {
+            newFields.Add(field.Name, field.DefaultValue);
+        }
+
+    }
+
+}
