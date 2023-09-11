@@ -111,7 +111,7 @@ else
     private Dictionary<string, string> newFields { get; set; } = new Dictionary<string, string>();
     public ICollection<ApiClients.Content> content { get; set; } = new List<ApiClients.Content>();
 
-    public ContentType? contentType;
+    public ApiClients.ContentType? contentType;
 
     private void Insert() {
         var newContent = new ApiClients.Content

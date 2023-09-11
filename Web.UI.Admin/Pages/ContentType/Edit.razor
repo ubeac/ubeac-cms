@@ -1,0 +1,11 @@
+@page "/contentType/{id}";
+
+<ContentTypeEditor Id={Id} Title="Edit CONTENT Type"/>
+
+@code {
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public Guid id {get; set;}
+
+    
+}

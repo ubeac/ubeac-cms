@@ -1,7 +1,9 @@
 ﻿@using ApiClients;
 
+@inject ContentTypeClient Client;
+
 <div class="app-brand demo ">
-    <a href="index.html" class="app-brand-link">
+    <a href="index" class="app-brand-link">
         <span class="app-brand-logo demo">
             <svg width="32" height="22" viewBox="0 0 32 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" clip-rule="evenodd"
@@ -27,26 +29,29 @@
 
 <div class="menu-inner-shadow" style="display: none;"></div>
 
-<ul class="menu-inner py-1 ps ps--active-y">
+<ul class="@NavMenuCssClass menu-inner py-1 ps ps--active-y" @onclick="ToggleNavMenu">
     <!-- Dashboards -->
     <li class="menu-item">
-        <a href="/contentTypes" target="_blank" class="menu-link">
+        COntenT TYPES
+        <NavLink href="contentTypes" target="_blank" class="menu-link">
             <i class="menu-icon tf-icons ti ti-box"></i>
             <div>Content Types</div>
-        </a>
+        </NavLink>
     </li>
 
     <li class="menu-item">
-        <a href="javascript:void(0)" class="menu-link menu-toggle">
+        CONTENT
+        <NavLink href="javascript:void(0)" class="menu-link menu-toggle">
             <div>Content</div>
-        </a>
+        </NavLink>
         <ul class="menu-sub">
             @foreach (var contentType in contentTypes)
             {
                 <li class="menu-item">
-                    <a href="/content/@contentType.Name" class="menu-link">
+                    @contentType.Name
+                    <NavLink href="@($"content/{contentType.Name}")" clasls="menu-link">
                         <div>@contentType.Name</div>
-                    </a>
+                    </NavLink>
                 </li>
             }
         </ul>
@@ -55,34 +60,21 @@
 
 @code {
 
+
+    private bool collapseNavMenu = true;
+
+    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+
+
     private ICollection<ContentType> contentTypes { set; get; } = new List<ContentType>();
     protected override async Task OnInitializedAsync()
     {
-        contentTypes.Add(new ContentType
-            {
-                Name = "Articles",
-                Fields = new List<Field> {
-new() {
-Name = "title",
-DefaultValue = "No-Title",
-Label = "Title",
-Type = "text"
-},
-new() {
-Name = "description",
-DefaultValue = "",
-Label = "Description",
-Type = "texthtml"
-},
-new() {
-Name = "archived",
-DefaultValue = "false",
-Label = "Archived",
-Type = "boolean"
-},
-}
-            });
-        @* contentTypes = await Client.GetAllAsync(); *@
+        contentTypes = await Client.GetAllAsync();
     }
 
 
