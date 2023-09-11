@@ -35,6 +35,13 @@ public class ContentTypeController : ControllerBase
         return _contentTypeService.GetById(id, cancellationToken);
     }
 
+
+    [HttpGet]
+    public Task<ContentType> GetByName([FromQuery] string type, CancellationToken cancellationToken = default)
+    {
+        return _contentTypeService.GetByName(type, cancellationToken);
+    }
+
     [HttpPost]
     public Task<ContentType> Insert([FromBody] ContentType entity, CancellationToken cancellationToken = default)
     {

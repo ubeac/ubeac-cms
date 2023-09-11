@@ -89,32 +89,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-
-        contentTypes.Add(new ContentType
-            {
-                Name = "Articles",
-                Fields = new List<Field> {
-new() {
-Name = "title",
-DefaultValue = "No-Title",
-Label = "Title",
-Type = "text"
-},
-new() {
-Name = "description",
-DefaultValue = "",
-Label = "Description",
-Type = "texthtml"
-},
-new() {
-Name = "archived",
-DefaultValue = "false",
-Label = "Archived",
-Type = "boolean"
-},
-}
-            });
-        @* contentTypes = await Client.GetAllAsync(); *@
+        contentTypes = await Client.GetAllAsync();
     }
 
 }

@@ -46,7 +46,7 @@ else
                                 <a class="btn btn-icon btn-primary" href="/Content/@(contentType.Name)"><i class="ti ti-eye"></i></a>
                                 <a class="btn btn-icon btn-secondary" href="/ContentTypes/@(contentType.Id)"><i class="ti ti-pencil"></i></a>
                                 <a class="btn btn-icon btn-danger" href="javascript:void(0);"><i class="ti ti-trash"></i></a>
-                                </div>
+                            </div>
 
                             </td>
                         </tr>
@@ -134,55 +134,13 @@ else
 
     protected override async Task OnInitializedAsync()
     {
+        content = await ContentClient.GetAllAsync(Name);
 
-        var contentItem = new Entities.Content 
-        {
-            SiteId = Guid.Empty,
-            CreateBy = "Hadi",
-            CreateDate = DateTime.Now,
-            LastUpdateBy = default,
-            LastUpdateDate = default,
-            Id =Guid.NewGuid(),
-            TypeId = Guid.Empty
-        };
+        contentType = await ContentTypeClient.GetByNameAsync(Name);
 
-        contentItem.Fields["title"] = "Title";
-        contentItem.Fields["description"] = "this is description";
-        contentItem.Fields["archived"] = false;
-
-        content = new List<Entities.Content> {
-            contentItem,
-            contentItem    
-        };
-
-        contentType = new ContentType {
-            Name= Name,
-            Fields = new List<Field> {
-new() {
-Name = "title",
-DefaultValue = "No-Title",
-Label = "Title",
-Type = "text"
-},
-new() {
-Name = "description",
-DefaultValue = "",
-Label = "Description",
-Type = "texthtml"
-},
-new() {
-Name = "archived",
-DefaultValue = "false",
-Label = "Archived",
-Type = "boolean"
-}
-            }
-        };
-        @* contentType = ContentTypeClient.GetByNameAsync() *@
         foreach(var field in contentType.Fields) {
             newFields.Add(field.Name, field.DefaultValue);
         }
-
     }
 
 }
