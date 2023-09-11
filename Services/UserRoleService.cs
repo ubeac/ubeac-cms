@@ -1,10 +1,17 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Entities;
+using Microsoft.AspNetCore.Identity;
 
-namespace uBeac.Identity;
+namespace Services;
 
-public class UserRoleService<TUserKey, TUser> : IUserRoleService<TUserKey, TUser>
-    where TUserKey : IEquatable<TUserKey>
-    where TUser : User<TUserKey>
+public interface IUserRoleService<TUser> where TUser : User
+{
+    Task<bool> AddRoles(Guid userId, IEnumerable<string> roleNames, CancellationToken cancellationToken = default);
+    Task<bool> RemoveRoles(Guid userId, IEnumerable<string> roleNames, CancellationToken cancellationToken = default);
+    Task<IList<string>> GetRolesForUser(Guid userId, CancellationToken cancellationToken = default);
+    Task<IList<TUser>> GetUsersInRole(string roleNames, CancellationToken cancellationToken = default);
+}
+
+public class UserRoleService<TUserKey, TUser> : IUserRoleService<TUser>    where TUser : User
 {
     private readonly UserManager<TUser> _userManager;
 
@@ -13,7 +20,7 @@ public class UserRoleService<TUserKey, TUser> : IUserRoleService<TUserKey, TUser
         _userManager = userManager;
     }
 
-    public virtual async Task<bool> AddRoles(TUserKey userId, IEnumerable<string> roleNames, CancellationToken cancellationToken = default)
+    public virtual async Task<bool> AddRoles(Guid userId, IEnumerable<string> roleNames, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
@@ -26,7 +33,7 @@ public class UserRoleService<TUserKey, TUser> : IUserRoleService<TUserKey, TUser
         return true;
     }
 
-    public virtual async Task<IList<string>> GetRolesForUser(TUserKey userId, CancellationToken cancellationToken = default)
+    public virtual async Task<IList<string>> GetRolesForUser(Guid userId, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
@@ -42,7 +49,7 @@ public class UserRoleService<TUserKey, TUser> : IUserRoleService<TUserKey, TUser
         return await _userManager.GetUsersInRoleAsync(roleName);
     }
 
-    public virtual async Task<bool> RemoveRoles(TUserKey userId, IEnumerable<string> roleNames, CancellationToken cancellationToken = default)
+    public virtual async Task<bool> RemoveRoles(Guid userId, IEnumerable<string> roleNames, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
@@ -53,13 +60,5 @@ public class UserRoleService<TUserKey, TUser> : IUserRoleService<TUserKey, TUser
         idResult.ThrowIfInvalid();
 
         return true;
-    }
-}
-
-public class UserRoleService<TUser> : UserRoleService<Guid, TUser>, IUserRoleService<TUser>
-    where TUser : User
-{
-    public UserRoleService(UserManager<TUser> userManager) : base(userManager)
-    {
     }
 }
