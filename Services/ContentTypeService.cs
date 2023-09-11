@@ -5,13 +5,22 @@ namespace Services;
 
 public interface IContentTypeService : IBaseEntityService<ContentType>
 {
+    public Task<ContentType> GetByName(string name, CancellationToken cancellationToken = default);
 }
 
 public class ContentTypeService : BaseEntityService<ContentType>, IContentTypeService
 {
+    private IContentTypeRepository _repository {get; set;}
     public ContentTypeService(IContentTypeRepository repository, CmsContext cmsContext) : base(repository, cmsContext)
-    {
+    {   
+        _repository = repository;
     }
+
+    public Task<ContentType> GetByName(string name, CancellationToken cancellationToken = default)
+    {
+        return _repository.GetByName(Context.SiteId, name, cancellationToken);
+    }
+
 
     public override Task<ContentType> Insert(ContentType entity, CancellationToken cancellationToken = default)
     {

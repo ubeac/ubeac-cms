@@ -1,19 +1,54 @@
 ﻿@inherits LayoutComponentBase
+<!-- Layout wrapper -->
+<div class="layout-wrapper layout-content-navbar">
 
-<PageTitle>Web.UI.Admin</PageTitle>
+  <!-- Layout container -->
+  <div class="layout-container">
+    <!-- Menu -->
+    <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+      <NavMenu/>
+    </aside>
+    <!--/ Menu -->
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
+    <!-- Layout page -->
+    <div class="layout-page">
 
-    <main>
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+      <!-- Navbar -->
+      <nav class="layout-navbar navbar navbar-expand-xl align-items-center bg-navbar-theme" id="layout-navbar">
+        Navbar
+      </nav>
+      <!--/ Navbar -->
+
+      <!-- Content wrapper -->
+      <div class="content-wrapper">
+
+        <!-- Content -->
+        <div class="container-xxl flex-grow-1 container-p-y">
+          @Body
         </div>
+        <!--/ Content -->
 
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
+        <!-- Footer -->
+        <footer class="content-footer footer bg-footer-theme">
+          Footer
+        </footer>
+        <!--/ Footer -->
+
+        <!-- Content area backdrop -->
+        <div class="content-backdrop fade"></div>
+      </div>
+      <!--/ Content wrapper -->
+
+    </div>
+    <!--/ Layout page -->
+
+  </div>
+  <!--/ Layout container -->
+
+  <!-- Overlay -->
+  <div class="layout-overlay layout-menu-toggle"></div>
+
+  <!-- Drag Target Area To SlideIn Menu On Small Screens -->
+  <div class="drag-target"></div>
 </div>
+<!--/ Layout wrapper -->

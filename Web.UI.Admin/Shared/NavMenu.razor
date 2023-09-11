@@ -1,39 +1,89 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">Web.UI.Admin</a>
-        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-    </div>
+﻿@using ApiClients;
+
+<div class="app-brand demo ">
+    <a href="index.html" class="app-brand-link">
+        <span class="app-brand-logo demo">
+            <svg width="32" height="22" viewBox="0 0 32 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M0.00172773 0V6.85398C0.00172773 6.85398 -0.133178 9.01207 1.98092 10.8388L13.6912 21.9964L19.7809 21.9181L18.8042 9.88248L16.4951 7.17289L9.23799 0H0.00172773Z"
+                    fill="#7367F0"></path>
+                <path opacity="0.06" fill-rule="evenodd" clip-rule="evenodd"
+                    d="M7.69824 16.4364L12.5199 3.23696L16.5541 7.25596L7.69824 16.4364Z" fill="#161616"></path>
+                <path opacity="0.06" fill-rule="evenodd" clip-rule="evenodd"
+                    d="M8.07751 15.9175L13.9419 4.63989L16.5849 7.28475L8.07751 15.9175Z" fill="#161616"></path>
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M7.77295 16.3566L23.6563 0H32V6.88383C32 6.88383 31.8262 9.17836 30.6591 10.4057L19.7824 22H13.6938L7.77295 16.3566Z"
+                    fill="#7367F0"></path>
+            </svg>
+        </span>
+        <span class="app-brand-text demo menu-text fw-bold">Web.UI.Admin</span>
+    </a>
+
+    <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
+        <i class="ti menu-toggle-icon d-none d-xl-block ti-sm align-middle"></i>
+        <i class="ti ti-x d-block d-xl-none ti-sm align-middle"></i>
+    </a>
 </div>
 
-<div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
-    <nav class="flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="oi oi-plus" aria-hidden="true"></span> Counter
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="fetchdata">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
-            </NavLink>
-        </div>
-    </nav>
-</div>
+<div class="menu-inner-shadow" style="display: none;"></div>
+
+<ul class="menu-inner py-1 ps ps--active-y">
+    <!-- Dashboards -->
+    <li class="menu-item">
+        <a href="/contentTypes" target="_blank" class="menu-link">
+            <i class="menu-icon tf-icons ti ti-box"></i>
+            <div>Content Types</div>
+        </a>
+    </li>
+
+    <li class="menu-item">
+        <a href="javascript:void(0)" class="menu-link menu-toggle">
+            <div>Content</div>
+        </a>
+        <ul class="menu-sub">
+            @foreach (var contentType in contentTypes)
+            {
+                <li class="menu-item">
+                    <a href="/content/@contentType.Name" class="menu-link">
+                        <div>@contentType.Name</div>
+                    </a>
+                </li>
+            }
+        </ul>
+    </li>
+</ul>
 
 @code {
-    private bool collapseNavMenu = true;
 
-    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
-
-    private void ToggleNavMenu()
+    private ICollection<ContentType> contentTypes { set; get; } = new List<ContentType>();
+    protected override async Task OnInitializedAsync()
     {
-        collapseNavMenu = !collapseNavMenu;
+        contentTypes.Add(new ContentType
+            {
+                Name = "Articles",
+                Fields = new List<Field> {
+new() {
+Name = "title",
+DefaultValue = "No-Title",
+Label = "Title",
+Type = "text"
+},
+new() {
+Name = "description",
+DefaultValue = "",
+Label = "Description",
+Type = "texthtml"
+},
+new() {
+Name = "archived",
+DefaultValue = "false",
+Label = "Archived",
+Type = "boolean"
+},
+}
+            });
+        @* contentTypes = await Client.GetAllAsync(); *@
     }
+
+
 }

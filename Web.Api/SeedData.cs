@@ -95,15 +95,15 @@ public static class SeedData
             {
                 TypeId = articleContentType.Id
             };
-            article1.Fields["Title"] = "Article 1";
-            article1.Fields["Description"] = "Article 1 Description";
+            article1.Fields["title"] = "Article 1";
+            article1.Fields["description"] = "Article 1 Description";
 
             var article2 = new Content
             {
                 TypeId = articleContentType.Id
             };
-            article2.Fields["Title"] = "Article 2";
-            article2.Fields["Description"] = "Article 2 Description";
+            article2.Fields["title"] = "Article 2";
+            article2.Fields["description"] = "Article 2 Description";
 
             var articles = new List<Content> { article1, article2 };
             foreach (var article in articles)
