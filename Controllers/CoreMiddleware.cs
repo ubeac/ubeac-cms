@@ -13,14 +13,14 @@ public class CoreMiddleware
         _next = next;
     }
 
-    public async Task InvokeAsync(HttpContext httpContext, ISiteService siteService, CmsContext cmsContext)
+    public async Task InvokeAsync(HttpContext httpContext, ISiteService siteService, IApplicationContext applicationContext)
     {
 
         var domainName = httpContext.Request.Host.Value;
         var site = await siteService.GetByDomain(domainName);
         if (site != null)
         {
-            cmsContext.SiteId = site.Id;
+            applicationContext.SiteId = site.Id;
         }
 
         await _next(httpContext);

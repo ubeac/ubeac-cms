@@ -10,9 +10,10 @@ public interface IContentTypeService : IBaseEntityService<ContentType>
 
 public class ContentTypeService : BaseEntityService<ContentType>, IContentTypeService
 {
-    private IContentTypeRepository _repository {get; set;}
-    public ContentTypeService(IContentTypeRepository repository, CmsContext cmsContext) : base(repository, cmsContext)
-    {   
+    private IContentTypeRepository _repository { get; set; }
+
+    public ContentTypeService(IContentTypeRepository repository, IApplicationContext applicationContext) : base(repository, applicationContext)
+    {
         _repository = repository;
     }
 

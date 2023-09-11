@@ -80,11 +80,17 @@ public class JwtTokenService<TUserKey, TUser> : ITokenService<TUser> where TUser
             new(JwtRegisteredClaimNames.Iat, DateTime.Now.ToLongDateString()),
             new(JwtRegisteredClaimNames.Sub, userId),
             new(ClaimTypes.NameIdentifier, userId),
-            new(ClaimTypes.Name, user.UserName)
+            new(ClaimTypes.Name, user.UserName ?? string.Empty)
         };
-        if (!string.IsNullOrWhiteSpace(user.NormalizedEmail)) result.Add(new Claim(ClaimTypes.Email, user.NormalizedEmail));
-        if (!string.IsNullOrWhiteSpace(user.PhoneNumber)) result.Add(new Claim(ClaimTypes.Email, user.PhoneNumber));
-        result.AddRange(user.Roles.Select(userRole => new Claim(ClaimTypes.Role, userRole)));
+
+        if (!string.IsNullOrWhiteSpace(user.NormalizedEmail))
+            result.Add(new Claim(ClaimTypes.Email, user.NormalizedEmail));
+
+        if (!string.IsNullOrWhiteSpace(user.PhoneNumber))
+            result.Add(new Claim(ClaimTypes.Email, user.PhoneNumber));
+
+        //result.AddRange(user.Roles.Select(userRole => new Claim(ClaimTypes.Role, userRole)));
+
         return result;
     }
 
@@ -134,7 +140,7 @@ public class JwtTokenService<TUserKey, TUser> : ITokenService<TUser> where TUser
 
             var userId = GetUserId(principal);
             if (!userId.HasValue) throw new Exception("Token is not valid.");
-            return userId.va;
+            return userId.Value;
         });
     }
 

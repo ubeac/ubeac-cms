@@ -10,6 +10,8 @@ services.AddMongoDbRepositories(builder.Configuration);
 
 services.AddServices();
 
+builder.Services.AddHttpContextAccessor();
+
 services.AddScoped(provider => new CmsContext());
 
 services.AddControllers().AddCmsControllers();

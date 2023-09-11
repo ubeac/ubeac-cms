@@ -24,13 +24,13 @@ public class ContentTypeController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<List<ContentType>> GetAll(CancellationToken cancellationToken = default)
+    public async Task<IList<ContentType>> GetAll(CancellationToken cancellationToken = default)
     {
         return await _contentTypeService.GetAll(cancellationToken);
     }
 
     [HttpGet]
-    public Task<ContentType> GetById([FromQuery] Guid id, CancellationToken cancellationToken = default)
+    public Task<ContentType?> GetById([FromQuery] Guid id, CancellationToken cancellationToken = default)
     {
         return _contentTypeService.GetById(id, cancellationToken);
     }

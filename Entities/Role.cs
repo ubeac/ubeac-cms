@@ -4,9 +4,9 @@ namespace Entities;
 
 public class Role : IdentityRole<Guid>, IBaseEntity
 {
-    public string? CreateBy { get; set; }
+    public Guid? CreateBy { get; set; }
     public DateTime CreateDate { get; set; }
-    public string? LastUpdateBy { get; set; }
+    public Guid? LastUpdateBy { get; set; }
     public DateTime? LastUpdateDate { get; set; }
 
     public string Description { get; set; } = string.Empty;
@@ -22,6 +22,6 @@ public class Role : IdentityRole<Guid>, IBaseEntity
 
     public override string ToString()
     {
-        return Name;
+        return Name ?? string.Empty;
     }
 }

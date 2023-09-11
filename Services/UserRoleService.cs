@@ -26,6 +26,8 @@ public class UserRoleService<TUserKey, TUser> : IUserRoleService<TUser>    where
 
         var user = await _userManager.FindByIdAsync(userId.ToString());
 
+        if (user == null) throw new ArgumentNullException(nameof(user));
+
         var idResult = await _userManager.AddToRolesAsync(user, roleNames);
 
         idResult.ThrowIfInvalid();
@@ -38,6 +40,8 @@ public class UserRoleService<TUserKey, TUser> : IUserRoleService<TUser>    where
         cancellationToken.ThrowIfCancellationRequested();
 
         var user = await _userManager.FindByIdAsync(userId.ToString());
+
+        if (user == null) throw new ArgumentNullException(nameof(user));
 
         return await _userManager.GetRolesAsync(user);
     }
@@ -54,6 +58,8 @@ public class UserRoleService<TUserKey, TUser> : IUserRoleService<TUser>    where
         cancellationToken.ThrowIfCancellationRequested();
 
         var user = await _userManager.FindByIdAsync(userId.ToString());
+
+        if (user == null) throw new ArgumentNullException(nameof(user));
 
         var idResult = await _userManager.RemoveFromRolesAsync(user, roleNames);
 

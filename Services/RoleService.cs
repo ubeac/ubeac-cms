@@ -5,7 +5,6 @@ namespace Services;
 
 public interface IRoleService<TRole> : IBaseEntityService<TRole> where TRole : Role
 {
-    Task<bool> Exists(string roleName, CancellationToken cancellationToken = default);
 }
 
 public class RoleService<TKey, TRole> : IRoleService<TRole> where TRole : Role
@@ -17,7 +16,7 @@ public class RoleService<TKey, TRole> : IRoleService<TRole> where TRole : Role
         RoleManager = roleManager;
     }
 
-    public async Task Delete(Guid id, CancellationToken cancellationToken = default)
+    public async Task<bool> Delete(Guid id, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
@@ -26,23 +25,21 @@ public class RoleService<TKey, TRole> : IRoleService<TRole> where TRole : Role
         var idResult = await RoleManager.DeleteAsync(role);
 
         idResult.ThrowIfInvalid();
+
+        return true;
     }
 
-    public Task<bool> Exists(string roleName, CancellationToken cancellationToken = default)
-    {
-        return RoleManager.RoleExistsAsync(roleName);
-    }
-
-    public Task<List<TRole>> GetAll(CancellationToken cancellationToken = default)
+    public async Task<IList<TRole>> GetAll(CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        return Task.FromResult(RoleManager.Roles.ToList());
+        var result = await Task.FromResult(RoleManager.Roles);
+        return result.ToList();
     }
 
-    public Task<TRole> GetById(Guid id, CancellationToken cancellationToken = default)
+    public Task<TRole?> GetById(Guid id, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        return Task.FromResult(RoleManager.Roles.AsEnumerable().Single(r => r.Id.Equals(id)));
+        return Task.FromResult(RoleManager.Roles.AsEnumerable().SingleOrDefault(r => r.Id.Equals(id)));
     }
 
     public async Task<TRole> Insert(TRole role, CancellationToken cancellationToken = default)

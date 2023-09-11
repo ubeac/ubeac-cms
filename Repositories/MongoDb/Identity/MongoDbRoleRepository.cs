@@ -20,4 +20,13 @@ public class MongoDbRoleRepository<TRole> : MongoDbBaseEntityRepository<TRole>, 
             // ignored
         }
     }
+
+    public async Task<TRole?> FindByName(string normalizedRoleName, CancellationToken cancellationToken)
+    {
+        var filter = Builders<TRole>.Filter.Eq(x => x.NormalizedName, normalizedRoleName);
+
+        var result = await Collection.FindAsync(filter, cancellationToken: cancellationToken);
+
+        return result.SingleOrDefault(cancellationToken: cancellationToken);
+    }
 }

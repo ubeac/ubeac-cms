@@ -25,20 +25,14 @@ public class MongoDbBaseEntityRepository<TEntity> : IBaseEntityRepository<TEntit
         return Collection.AsQueryable();
     }
 
-    public virtual async Task<List<TEntity>> GetAll(CancellationToken cancellationToken = default)
+    public virtual async Task<IList<TEntity>> GetAll(CancellationToken cancellationToken = default)
     {
         var filter = Builders<TEntity>.Filter.Empty;
         var result = await Collection.FindAsync(filter, cancellationToken: cancellationToken);
         return await result.ToListAsync(cancellationToken: cancellationToken);
     }
 
-    public virtual async Task<List<TEntity>> GetAll(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default)
-    {
-        var result = await Collection.FindAsync(predicate, cancellationToken: cancellationToken);
-        return await result.ToListAsync(cancellationToken: cancellationToken);
-    }
-
-    public virtual async Task<TEntity> GetById(Guid id, CancellationToken cancellationToken = default)
+    public virtual async Task<TEntity?> GetById(Guid id, CancellationToken cancellationToken = default)
     {
         var filter = Builders<TEntity>.Filter.Eq(x => x.Id, id);
 
@@ -68,15 +62,11 @@ public class MongoDbBaseEntityRepository<TEntity> : IBaseEntityRepository<TEntit
         return entity;
     }
 
-    public virtual async Task Delete(TEntity entity, CancellationToken cancellationToken = default)
-    {
-        await Delete(entity.Id, cancellationToken);
-    }
-
-    public virtual async Task Delete(Guid id, CancellationToken cancellationToken = default)
+    public virtual async Task<bool> Delete(Guid id, CancellationToken cancellationToken = default)
     {
         var filter = Builders<TEntity>.Filter.Eq(x => x.Id, id);
-        await Collection.DeleteOneAsync(filter, cancellationToken);
+        var deleteResult = await Collection.DeleteOneAsync(filter, cancellationToken);
+        return deleteResult.DeletedCount == 1;
     }
 
     public virtual async Task Delete(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default)

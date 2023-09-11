@@ -9,36 +9,36 @@ public interface IBaseEntityService
 
 public interface IBaseEntityService<TEntity> : IBaseEntityService where TEntity : class, IBaseEntity
 {
-    Task<List<TEntity>> GetAll(CancellationToken cancellationToken = default);
-    Task<TEntity> GetById(Guid id, CancellationToken cancellationToken = default);
+    Task<IList<TEntity>> GetAll(CancellationToken cancellationToken = default);
+    Task<TEntity?> GetById(Guid id, CancellationToken cancellationToken = default);
     Task<TEntity> Insert(TEntity entity, CancellationToken cancellationToken = default);
     Task<TEntity> Update(TEntity entity, CancellationToken cancellationToken = default);
-    Task Delete(Guid id, CancellationToken cancellationToken = default);
+    Task<bool> Delete(Guid id, CancellationToken cancellationToken = default);
 }
 
 
 public class BaseEntityService<TEntity> : IBaseEntityService<TEntity> where TEntity : class, IBaseEntity
 {
     protected IBaseEntityRepository<TEntity> Repository { get; }
-    protected CmsContext Context { get; }
+    protected IApplicationContext Context { get; }
 
-    public BaseEntityService(IBaseEntityRepository<TEntity> repository, CmsContext cmsContext)
+    public BaseEntityService(IBaseEntityRepository<TEntity> repository, IApplicationContext applicationContext)
     {
         Repository = repository;
-        Context = cmsContext;
+        Context = applicationContext;
     }
 
-    public virtual Task Delete(Guid id, CancellationToken cancellationToken = default)
+    public virtual Task<bool> Delete(Guid id, CancellationToken cancellationToken = default)
     {
         return Repository.Delete(id, cancellationToken);
     }
 
-    public virtual Task<List<TEntity>> GetAll(CancellationToken cancellationToken = default)
+    public virtual Task<IList<TEntity>> GetAll(CancellationToken cancellationToken = default)
     {
         return Repository.GetAll(cancellationToken);
     }
 
-    public virtual Task<TEntity> GetById(Guid id, CancellationToken cancellationToken = default)
+    public virtual Task<TEntity?> GetById(Guid id, CancellationToken cancellationToken = default)
     {
         return Repository.GetById(id, cancellationToken);
     }
@@ -46,7 +46,7 @@ public class BaseEntityService<TEntity> : IBaseEntityService<TEntity> where TEnt
     public virtual Task<TEntity> Insert(TEntity entity, CancellationToken cancellationToken = default)
     {
         entity.CreateDate = DateTime.Now;
-        entity.CreateBy = Context.Username;
+        entity.CreateBy = Context.UserId;
         entity.LastUpdateDate = default;
         entity.LastUpdateBy = default;
         return Repository.Insert(entity, cancellationToken);
@@ -58,7 +58,7 @@ public class BaseEntityService<TEntity> : IBaseEntityService<TEntity> where TEnt
         //entity.CreateDate = DateTime.Now;
         //entity.CreateBy = _cmsContext.Username;
         entity.LastUpdateDate = DateTime.Now;
-        entity.LastUpdateBy = Context.Username;
+        entity.LastUpdateBy = Context.UserId;
         return Repository.Update(entity, cancellationToken);
     }
 }

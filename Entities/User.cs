@@ -4,9 +4,9 @@ namespace Entities;
 
 public class User : IdentityUser<Guid>, IBaseEntity
 {
-    public string? CreateBy { get; set; }
+    public Guid? CreateBy { get; set; }
     public DateTime CreateDate { get; set; }
-    public string? LastUpdateBy { get; set; }
+    public Guid? LastUpdateBy { get; set; }
     public DateTime? LastUpdateDate { get; set; }
 
     public DateTime? LastLoginDate { get; set; }
@@ -19,7 +19,7 @@ public class User : IdentityUser<Guid>, IBaseEntity
     public List<IdentityUserLogin<Guid>> Logins { get; set; } = new();
     public List<IdentityUserToken<Guid>> Tokens { get; set; } = new();
     public List<TwoFactorRecoveryCode> RecoveryCodes { get; set; } = new();
-    public List<string> Roles { get; set; } = new();
+    public List<Guid> Roles { get; set; } = new();
 
     public User()
     {
@@ -40,7 +40,7 @@ public class TwoFactorRecoveryCode
 public class SignInResult
 {
     public virtual Guid UserId { get; set; }
-    public virtual List<string> Roles { get; set; } = new();
+    public virtual List<Guid> Roles { get; set; } = new();
     public virtual string Token { get; set; } = string.Empty;
     public virtual string RefreshToken { get; set; } = string.Empty;
     public virtual DateTime Expiry { get; set; }
