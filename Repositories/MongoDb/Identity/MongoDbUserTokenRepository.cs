@@ -7,4 +7,6 @@ public class MongoDbUserTokenRepository<TUserToken> : MongoDbBaseEntityRepositor
     public MongoDbUserTokenRepository(IMongoDbProvider mongoDbProvider) : base(mongoDbProvider)
     {
     }
+
+    protected override string CollectionName => "UserToken";
 }

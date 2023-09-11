@@ -1,8 +1,6 @@
-﻿using Controllers;
-using Entities;
+﻿using Entities;
 using Microsoft.AspNetCore.Identity;
 using Services;
-using System.Reflection;
 
 namespace Microsoft.Extensions.DependencyInjection;
 

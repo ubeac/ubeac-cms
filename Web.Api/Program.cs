@@ -12,7 +12,11 @@ services.AddServices();
 
 builder.Services.AddHttpContextAccessor();
 
-services.AddScoped(provider => new CmsContext());
+services.AddScoped<IApplicationContext>(provider =>
+{
+    var httpContextAccessor = provider.GetRequiredService<IHttpContextAccessor>();
+    return new ApplicationContext(httpContextAccessor);
+});
 
 services.AddControllers().AddCmsControllers();
 

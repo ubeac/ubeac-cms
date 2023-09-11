@@ -11,7 +11,7 @@ public interface IUserRoleService<TUser> where TUser : User
     Task<IList<TUser>> GetUsersInRole(string roleNames, CancellationToken cancellationToken = default);
 }
 
-public class UserRoleService<TUserKey, TUser> : IUserRoleService<TUser>    where TUser : User
+public class UserRoleService<TUserKey, TUser> : IUserRoleService<TUser> where TUser : User
 {
     private readonly UserManager<TUser> _userManager;
 

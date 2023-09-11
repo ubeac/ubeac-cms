@@ -1,5 +1,6 @@
 ﻿using Entities;
 using MongoDB.Driver;
+using System.Linq;
 using System.Security.Claims;
 
 namespace Repositories.MongoDb;
@@ -22,28 +23,47 @@ public class MongoDbUserRepository<TUser> : MongoDbBaseEntityRepository<TUser>, 
         }
     }
 
+    protected override string CollectionName => "User";
+
     public Task<IList<TUser>> FindByClaim(Claim claim, CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }
 
-    public Task<TUser?> FindByEmail(string normalizedEmail, CancellationToken cancellationToken)
+    public async Task<TUser?> FindByEmail(string normalizedEmail, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var filter = Builders<TUser>.Filter.Eq(x => x.NormalizedEmail, normalizedEmail);
+
+        var result = await Collection.FindAsync(filter, cancellationToken: cancellationToken);
+
+        return result.SingleOrDefault(cancellationToken: cancellationToken);
     }
 
     public Task<TUser?> FindByLogin(string loginProvider, string providerKey, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var result = Collection.AsQueryable().Where(user => user.Logins.Any(x => x.LoginProvider == loginProvider && x.ProviderKey == providerKey));
+
+        return Task.FromResult(result.SingleOrDefault());
     }
 
-    public Task<IList<TUser>> FindByRoleId(string roleId, CancellationToken cancellationToken)
+    public async Task<IList<TUser>> FindByRoleId(string roleId, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        if (!Guid.TryParse(roleId, out var id))
+            return new List<TUser>();
+
+        var filter = Builders<TUser>.Filter.AnyIn(x => x.Roles, new Guid[] { id });
+
+        var result = await Collection.FindAsync(filter, cancellationToken: cancellationToken);
+
+        return result.ToList(cancellationToken: cancellationToken);
     }
 
-    public Task<TUser?> FindByUserName(string normalizedUserName, CancellationToken cancellationToken)
+    public async Task<TUser?> FindByUserName(string normalizedUserName, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var filter = Builders<TUser>.Filter.Eq(x => x.NormalizedUserName, normalizedUserName);
+
+        var result = await Collection.FindAsync(filter, cancellationToken: cancellationToken);
+
+        return result.SingleOrDefault(cancellationToken: cancellationToken);
     }
 }

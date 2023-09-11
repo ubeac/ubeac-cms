@@ -9,7 +9,7 @@ public class ApplicationContext : IApplicationContext
     protected const string SidHeaderKey = "sid";
     protected const string UidHeaderKey = "uid";
 
-    public ApplicationContext(IHttpContextAccessor? accessor)
+    public ApplicationContext(IHttpContextAccessor accessor)
     {
         if (accessor != null)
         {
@@ -31,7 +31,7 @@ public class ApplicationContext : IApplicationContext
     public string UserIp { get; }
     public string Language { get; }
 
-    public Guid SiteId { get; }
+    public Guid SiteId { get; set; }
 
     public Guid? UserId { get; }
 

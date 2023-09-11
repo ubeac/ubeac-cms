@@ -7,8 +7,7 @@ public static class SeedData
     {
         var scope = provider.CreateScope();
 
-
-        var cmsContext = scope.ServiceProvider.GetRequiredService<CmsContext>();
+        var appContext = scope.ServiceProvider.GetRequiredService<IApplicationContext>();
 
         var siteService = scope.ServiceProvider.GetRequiredService<ISiteService>();
         var contentService = scope.ServiceProvider.GetRequiredService<IContentService>();
@@ -26,7 +25,7 @@ public static class SeedData
 
             siteService.Insert(site).GetAwaiter().GetResult();
 
-            cmsContext.SiteId = site.Id;
+            appContext.SiteId = site.Id;
 
             #endregion
 

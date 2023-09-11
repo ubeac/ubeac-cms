@@ -2,7 +2,7 @@
 
 public interface IApplicationContext
 {
-    public Guid SiteId { get; }
+    public Guid SiteId { get; set; }
     public string TraceId { get; }
     public string UniqueId { get; }
     public string SessionId { get; }

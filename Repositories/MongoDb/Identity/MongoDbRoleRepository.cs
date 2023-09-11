@@ -21,6 +21,8 @@ public class MongoDbRoleRepository<TRole> : MongoDbBaseEntityRepository<TRole>, 
         }
     }
 
+    protected override string CollectionName => "Role";
+
     public async Task<TRole?> FindByName(string normalizedRoleName, CancellationToken cancellationToken)
     {
         var filter = Builders<TRole>.Filter.Eq(x => x.NormalizedName, normalizedRoleName);
@@ -29,4 +31,5 @@ public class MongoDbRoleRepository<TRole> : MongoDbBaseEntityRepository<TRole>, 
 
         return result.SingleOrDefault(cancellationToken: cancellationToken);
     }
+
 }

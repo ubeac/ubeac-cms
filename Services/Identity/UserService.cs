@@ -23,7 +23,6 @@ public interface IUserService<TUser, TUserToken> where TUser : User where TUserT
     Task<TUser?> GetById(Guid id, CancellationToken cancellationToken = default);
     Task<IEnumerable<Claim>> GetClaims(TUser user, CancellationToken cancellationToken = default);
     Task Update(TUser user, CancellationToken cancellationToken = default);
-    Task<bool> ExistsUserName(string userName, CancellationToken cancellationToken = default);
 }
 
 
@@ -131,12 +130,6 @@ public class UserService<TUser, TUserToken> : IUserService<TUser, TUserToken> wh
     public async Task Update(TUser entity, CancellationToken cancellationToken = default)
     {
         await UserManager.UpdateAsync(entity);
-    }
-
-    public async Task<bool> ExistsUserName(string userName, CancellationToken cancellationToken = default)
-    {
-        userName = userName.ToUpperInvariant();
-        return await UserManager.FindByNameAsync(userName) != null;
     }
 
     public async Task<bool> Delete(Guid id, CancellationToken cancellationToken = default)
