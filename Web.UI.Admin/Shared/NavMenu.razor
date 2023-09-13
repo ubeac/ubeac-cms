@@ -32,15 +32,13 @@
 <ul class="@NavMenuCssClass menu-inner py-1 ps ps--active-y" @onclick="ToggleNavMenu">
     <!-- Dashboards -->
     <li class="menu-item">
-        COntenT TYPES
-        <NavLink href="contentTypes" target="_blank" class="menu-link">
+        <NavLink href="/contentTypes" class="menu-link">
             <i class="menu-icon tf-icons ti ti-box"></i>
             <div>Content Types</div>
         </NavLink>
     </li>
 
     <li class="menu-item">
-        CONTENT
         <NavLink href="javascript:void(0)" class="menu-link menu-toggle">
             <div>Content</div>
         </NavLink>
@@ -48,8 +46,7 @@
             @foreach (var contentType in contentTypes)
             {
                 <li class="menu-item">
-                    @contentType.Name
-                    <NavLink href="@($"content/{contentType.Name}")" clasls="menu-link">
+                    <NavLink href="@($"/content/{contentType.Name}")" class="menu-link">
                         <div>@contentType.Name</div>
                     </NavLink>
                 </li>
@@ -61,9 +58,9 @@
 @code {
 
 
-    private bool collapseNavMenu = true;
+    private bool collapseNavMenu = false;
 
-    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+    private string? NavMenuCssClass => collapseNavMenu ? "11111111" : null;
 
     private void ToggleNavMenu()
     {

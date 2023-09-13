@@ -1,0 +1,24 @@
+@page "/contentTypes/add";
+@using ApiClients;
+@inject NavigationManager Navigation;
+@inject ContentTypeClient Client;
+
+<div class="py-3 mb-4 d-flex justify-content-between">
+    <h4>Add New Content Type</h4>
+
+    <a href="/contenttypes" class="btn btn-light" type="button">
+        <span>
+            <i class="ti ti-chevron-left me-0 me-sm-1 ti-xs"></i>
+            <span class="d-none d-sm-inline-block">Back</span>
+        </span>
+    </a>
+</div>
+
+<ContentTypeEditor Title="Add Content Type" OnSubmit="OnSubmit"/>
+
+@code {
+    private async Task OnSubmit(ContentType _contentType) {
+        await Client.InsertAsync(_contentType);
+        Navigation.NavigateTo("/contenttypes");
+    }
+}

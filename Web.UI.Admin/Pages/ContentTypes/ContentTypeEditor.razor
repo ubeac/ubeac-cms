@@ -1,0 +1,43 @@
+@using ApiClients;
+@inject ContentTypeClient Client;
+
+@if (ContentType != null) {
+
+<div class="card mb-4">
+    <div class="card-body">
+        <form @onsubmit="() => RunOnSubmit()">
+            <div class="mb-3">
+                <label class="form-label" for="name">Name</label>
+                <input type="text" class="form-control" id="name" placeholder="Article, News, ...">
+            </div>
+          
+            <button class="btn btn-primary" type="submit">Submit</button>
+        </form>
+    </div>
+</div>
+
+}
+
+@code {
+    [Parameter]
+    public string Title {get; set;} = "Edit Content Type";
+
+    [Parameter]
+    public ContentType? ContentType {get; set;}
+    
+    [Parameter]
+    public EventCallback<ContentType> OnSubmit { get; set; }
+
+    public void RunOnSubmit() {
+        OnSubmit.InvokeAsync(ContentType);
+    }
+    
+    protected override void OnInitialized() {
+        ContentType = new ContentType {
+            Name = "Init",
+            Fields = new List<Field> {
+                
+            }
+        };
+    }
+}
